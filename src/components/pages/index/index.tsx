@@ -63,12 +63,31 @@ function Main() {
       const { data, error } = await supabase.auth.signUp({
         email: email || '',
         password: password || '',
+        options: {
+          data: { name: name },
+        },
       });
 
       if (error) {
+        if (error.message == 'User already registered') {
+          setShowWarning(true);
+
+          setTimeout(() => {
+            setShowWarning(false);
+          }, 10000);
+        }
+
         console.log(error.message);
-      } else {
-        navigate('/to-do-list');
+      } else if (data.user) {
+        const { error } = await supabase
+          .from('users')
+          .insert([{ email: data.user.email, name: name }]);
+
+        if (error) {
+          console.log('Erro ao registrar nome de usuário', error);
+        } else {
+          navigate('/to-do-list');
+        }
       }
     } catch (error) {
       console.error('Erro no registro', error);
@@ -101,7 +120,6 @@ function Main() {
           setInputError(false);
         }, 2000);
       } else {
-        console.log('Login realizado', data);
         navigate('/to-do-list');
       }
     } catch (error) {
@@ -127,7 +145,7 @@ function Main() {
             </User>
             <Password>
               <Text>Senha</Text>
-              <PasswordInput placeholder="Digite sua senha" />
+              <PasswordInput placeholder="Digite sua senha" ref={passwordRef} />
             </Password>
             <LogginButton onClick={handleLogin} loading={loading}>
               {loading && (
@@ -174,7 +192,10 @@ function Main() {
             </User>
             <Password>
               <Text>Senha</Text>
-              <PasswordInput placeholder="Digite sua senha" />
+              <PasswordInput
+                placeholder="Digite sua senha"
+                ref={registerPasswordRef}
+              />
             </Password>
             <RegisterButton onClick={handleRegister} loading={loading}>
               {loading && (
@@ -192,6 +213,11 @@ function Main() {
                 Clique <a onClick={showLoginForm}>aqui</a>!
               </RegisterText>
             </RegisterContent>
+            {showWarning && (
+              <Error>
+                <ErrorMessage>E-mail já cadastrado!</ErrorMessage>
+              </Error>
+            )}
           </>
         )}
       </LoginContainer>
