@@ -1,0 +1,47 @@
+import { Colors, Breakpoints, Typography, Theme } from './types';
+
+const colors: Colors = {
+  background: '#282c34',
+  text: '#000000',
+  white: '#ffffff',
+};
+const breakpoints: Breakpoints = {
+  small: 769,
+  medium: 869,
+
+  maxWidthDesk: '72rem',
+};
+
+const typography: Typography = {
+  h1: '700 1.75rem "Montserrat", sans-serif',
+  h2: '700 1.5rem "Montserrat", sans-serif',
+  h3: '700 1.25rem "Montserrat", sans-serif',
+  h4: '700 1.125rem "Montserrat", sans-serif',
+  paragraph: '300 0.875rem "Montserrat", sans-serif',
+
+  h1Desk: '700 2.75rem "Montserrat", sans-serif',
+  h2Desk: '700 2.25rem "Montserrat", sans-serif',
+  h3Desk: '700 1.75rem "Montserrat", sans-serif',
+  h4Desk: '700 1.5rem "Montserrat", sans-serif',
+  paragraphDesk: '300 1.125rem "Montserrat", sans-serif',
+
+  base: '100%',
+  baseDesk: '100%',
+  display: '"Montserrat", sans-serif',
+  body: '"Montserrat", sans-serif',
+
+  size1: '2.75rem',
+  size2: '2.25rem',
+  size3: '1.75rem',
+  size4: '1.5rem',
+  size5: '1.25rem',
+  size6: '1rem',
+  large: '1.25rem',
+  medium: '1.125rem',
+  normal: '1rem',
+  small: '0.875rem',
+};
+
+const theme: Theme = { colors, breakpoints, typography };
+
+export default theme;

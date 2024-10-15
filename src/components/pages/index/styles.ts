@@ -11,7 +11,7 @@ const rotate = keyframes`
 `;
 
 export const Page = styled.div`
-  background-color: #282c34;
+  background-color: ${(p) => p.theme.colors.background};
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -43,7 +43,7 @@ export const Text = styled.h3`
   text-align: center;
   padding-bottom: 0.8rem;
   font-size: 1.375rem;
-  color: #ffffff;
+  color: ${(p) => p.theme.colors.white};
 `;
 
 const Dot = styled.div`
@@ -101,7 +101,7 @@ export const LogginButton = styled.button<{ loading: boolean }>`
   :hover {
     cursor: pointer;
     background-color: lightblue;
-    color: #ffffff;
+    color: ${(p) => p.theme.colors.white};
   }
 
   ${(props) =>
