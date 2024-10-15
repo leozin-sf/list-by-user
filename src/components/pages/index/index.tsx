@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import Container from '../../layout/Container';
 
 import {
-  Page,
   LoginContainer,
   User,
   Password,
@@ -58,48 +57,46 @@ function Main() {
   };
 
   return (
-    <Page>
-      <Container>
-        <LoginContainer>
-          <User>
-            <Text>Login</Text>
-            <input
-              className={inputError ? 'Error' : ''}
-              name="Login"
-              placeholder="E-mail"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </User>
-          <Password>
-            <Text>Senha</Text>
-            <input
-              className={inputError ? 'Error' : ''}
-              name="Password"
-              type="password"
-              placeholder="Senha"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </Password>
-          <LogginButton onClick={handleLogin} loading={loading}>
-            {loading && (
-              <DotContainer loading={loading}>
-                <DotTop1 />
-                <DotTop2 />
-                <DotLeft />
-                <DotRight />
-              </DotContainer>
-            )}
-          </LogginButton>
-          {showWarning && (
-            <Error>
-              <ErrorMessage>Erro ao realizar login</ErrorMessage>
-            </Error>
+    <Container>
+      <LoginContainer>
+        <User>
+          <Text>Login</Text>
+          <input
+            className={inputError ? 'Error' : ''}
+            name="Login"
+            placeholder="E-mail"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </User>
+        <Password>
+          <Text>Senha</Text>
+          <input
+            className={inputError ? 'Error' : ''}
+            name="Password"
+            type="password"
+            placeholder="Senha"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </Password>
+        <LogginButton onClick={handleLogin} loading={loading}>
+          {loading && (
+            <DotContainer loading={loading}>
+              <DotTop1 />
+              <DotTop2 />
+              <DotLeft />
+              <DotRight />
+            </DotContainer>
           )}
-        </LoginContainer>
-      </Container>
-    </Page>
+        </LogginButton>
+        {showWarning && (
+          <Error>
+            <ErrorMessage>Erro ao realizar login</ErrorMessage>
+          </Error>
+        )}
+      </LoginContainer>
+    </Container>
   );
 }
 

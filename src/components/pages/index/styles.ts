@@ -10,15 +10,6 @@ const rotate = keyframes`
   }
 `;
 
-export const Page = styled.div`
-  background-color: ${(p) => p.theme.colors.loginPage.background};
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
 export const LoginContainer = styled.div`
   background: ${(p) => p.theme.colors.loginPage.loginGradient};
   min-height: 16rem;
