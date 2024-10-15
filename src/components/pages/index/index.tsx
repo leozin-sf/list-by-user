@@ -1,6 +1,6 @@
 import React, { useState, FormEvent } from 'react';
-import { createClient } from '@supabase/supabase-js';
-import { supaString } from './types';
+import { supabase } from '../../auth/SupaBaseClient';
+import { useNavigate } from 'react-router-dom';
 
 import Container from '../../layout/Container';
 
@@ -20,16 +20,13 @@ import {
   ErrorMessage,
 } from './styles';
 
-const supabaseUrl = supaString(process.env.REACT_APP_SUPABASE_URL);
-const supabaseKey = supaString(process.env.REACT_APP_SUPABASE_KEY);
-
-const supabase = createClient(supabaseUrl, supabaseKey);
-
 function Main() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [showWarning, setShowWarning] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [inputError, setInputError] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
@@ -44,13 +41,15 @@ function Main() {
       });
       if (error) {
         setShowWarning(true);
+        setInputError(true);
 
         setTimeout(() => {
           setShowWarning(false);
+          setInputError(false);
         }, 2000);
       } else {
         console.log('Login realizado', data);
-        // Aqui você pode redirecionar o usuário para outra página ou fazer outra ação
+        navigate('/to-do-list');
       }
     } catch (error) {
     } finally {
@@ -65,6 +64,7 @@ function Main() {
           <User>
             <Text>Login</Text>
             <input
+              className={inputError ? 'Error' : ''}
               name="Login"
               placeholder="E-mail"
               value={email}
@@ -74,6 +74,7 @@ function Main() {
           <Password>
             <Text>Senha</Text>
             <input
+              className={inputError ? 'Error' : ''}
               name="Password"
               type="password"
               placeholder="Senha"
