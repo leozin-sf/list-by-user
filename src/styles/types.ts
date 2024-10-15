@@ -1,13 +1,15 @@
-interface ButtonTypes {
-  border?: string;
-  border2?: string;
-  bg: string;
-  fg: string;
-}
 export interface Colors {
   background: string;
   text: string;
-  white: string;
+
+  loginPage: {
+    background: string;
+    text: string;
+    white: string;
+    inputBorder: string;
+    loginGradient: string;
+    hoverButton: string;
+  };
 }
 
 export interface Breakpoints {

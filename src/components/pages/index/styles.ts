@@ -11,7 +11,7 @@ const rotate = keyframes`
 `;
 
 export const Page = styled.div`
-  background-color: ${(p) => p.theme.colors.background};
+  background-color: ${(p) => p.theme.colors.loginPage.background};
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -20,21 +20,34 @@ export const Page = styled.div`
 `;
 
 export const LoginContainer = styled.div`
+  background: ${(p) => p.theme.colors.loginPage.loginGradient};
   min-height: 16rem;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
+  justify-content: space-evenly;
   flex-direction: column;
   gap: 1rem;
+  padding: 2rem;
+  border-radius: 1rem;
 
   input {
     height: 1.4rem;
+    border-radius: 0.5rem;
+
+    :focus {
+      outline: 2px solid ${(p) => p.theme.colors.loginPage.inputBorder};
+      border-radius: 0.5rem;
+    }
   }
 `;
 
-export const User = styled.label``;
+export const User = styled.label`
+  .Error {
+  }
+`;
 
 export const Password = styled.label``;
 
@@ -43,7 +56,7 @@ export const Text = styled.h3`
   text-align: center;
   padding-bottom: 0.8rem;
   font-size: 1.375rem;
-  color: ${(p) => p.theme.colors.white};
+  color: ${(p) => p.theme.colors.loginPage.white};
 `;
 
 const Dot = styled.div`
@@ -100,8 +113,8 @@ export const LogginButton = styled.button<{ loading: boolean }>`
 
   :hover {
     cursor: pointer;
-    background-color: lightblue;
-    color: ${(p) => p.theme.colors.white};
+    background-color: ${(p) => p.theme.colors.loginPage.hoverButton};
+    color: ${(p) => p.theme.colors.loginPage.white};
   }
 
   ${(props) =>
