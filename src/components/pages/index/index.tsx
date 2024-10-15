@@ -12,17 +12,13 @@ import {
   Text,
   LogginButton,
   RegisterButton,
-  DotContainer,
-  DotTop1,
-  DotTop2,
-  DotLeft,
-  DotRight,
   Error,
   ErrorMessage,
   RegisterContent,
   LoginText,
   RegisterText,
 } from './styles';
+import { Loading } from '../../common/DotLoading';
 
 function Main() {
   const emailRef = useRef<HTMLInputElement>(null);
@@ -32,9 +28,11 @@ function Main() {
   const registerNameRef = useRef<HTMLInputElement>(null);
   const [showLogin, setShowLogin] = useState<boolean>(true);
   const [showRegister, setShowRegister] = useState<boolean>(false);
+  const [nameError, setNameError] = useState<boolean>(false);
+  const [emailError, setEmailError] = useState<boolean>(false);
+  const [passwordError, setPasswordError] = useState<boolean>(false);
   const [showWarning, setShowWarning] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [inputError, setInputError] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const showRegisterForm = () => {
@@ -53,11 +51,36 @@ function Main() {
     e.preventDefault();
     setLoading(true);
 
-    await new Promise((resolve) => setTimeout(resolve, 1400));
-
     const email = registerEmailRef.current?.value;
     const password = registerPasswordRef.current?.value;
     const name = registerNameRef.current?.value;
+
+    let hasError = false;
+    if (!name || name.trim() === '') {
+      setNameError(true);
+      hasError = true;
+    } else {
+      setNameError(false);
+    }
+
+    if (!email || email.trim() === '') {
+      setEmailError(true);
+      hasError = true;
+    } else {
+      setEmailError(false);
+    }
+
+    if (!password || password.trim() === '') {
+      setPasswordError(true);
+      hasError = true;
+    } else {
+      setPasswordError(false);
+    }
+
+    if (hasError) {
+      setLoading(false);
+      return;
+    }
 
     try {
       const { data, error } = await supabase.auth.signUp({
@@ -69,9 +92,8 @@ function Main() {
       });
 
       if (error) {
-        if (error.message == 'User already registered') {
+        if (error.message === 'User already registered') {
           setShowWarning(true);
-
           setTimeout(() => {
             setShowWarning(false);
           }, 10000);
@@ -92,7 +114,9 @@ function Main() {
     } catch (error) {
       console.error('Erro no registro', error);
     } finally {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 3000);
     }
   };
 
@@ -100,10 +124,29 @@ function Main() {
     e.preventDefault();
     setLoading(true);
 
-    await new Promise((resolve) => setTimeout(resolve, 1400));
-
     const email = emailRef.current?.value;
     const password = passwordRef.current?.value;
+
+    let hasError = false;
+
+    if (!email || email.trim() === '') {
+      setEmailError(true);
+      hasError = true;
+    } else {
+      setEmailError(false);
+    }
+
+    if (!password || password.trim() === '') {
+      setPasswordError(true);
+      hasError = true;
+    } else {
+      setPasswordError(false);
+    }
+
+    if (hasError) {
+      setLoading(false);
+      return;
+    }
 
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -113,18 +156,21 @@ function Main() {
       if (error) {
         console.log(error.message);
         setShowWarning(true);
-        setInputError(true);
-
         setTimeout(() => {
           setShowWarning(false);
-          setInputError(false);
         }, 2000);
       } else {
+        setTimeout(() => {
+          setLoading(false);
+        }, 3000);
         navigate('/to-do-list');
       }
     } catch (error) {
+      console.error('Erro no login', error);
     } finally {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 3000);
     }
   };
 
@@ -137,26 +183,24 @@ function Main() {
               <Text>Login</Text>
               <input
                 ref={emailRef}
-                className={inputError ? 'Error' : ''}
                 name="Login"
                 placeholder="E-mail"
                 type="email"
+                className={emailError ? 'erroNome' : ''}
               />
             </User>
             <Password>
               <Text>Senha</Text>
-              <PasswordInput placeholder="Digite sua senha" ref={passwordRef} />
+              <PasswordInput
+                placeholder="Digite sua senha"
+                ref={passwordRef}
+                className={passwordError ? 'erroNome' : ''}
+              />
             </Password>
             <LogginButton onClick={handleLogin} loading={loading}>
-              {loading && (
-                <DotContainer loading={loading}>
-                  <DotTop1 />
-                  <DotTop2 />
-                  <DotLeft />
-                  <DotRight />
-                </DotContainer>
-              )}
+              {loading && <Loading loading={loading} />}
             </LogginButton>
+
             <RegisterContent>
               <LoginText>Ainda não possui cadastro?</LoginText>
               <LoginText>
@@ -177,8 +221,8 @@ function Main() {
               <input
                 ref={registerNameRef}
                 type="text"
-                placeholder="Seu Nome"
-                required
+                placeholder={nameError ? 'Informe seu nome!' : 'Seu Nome'}
+                className={nameError ? 'erroNome' : ''}
               />
             </User>
             <User>
@@ -186,26 +230,22 @@ function Main() {
               <input
                 ref={registerEmailRef}
                 type="email"
-                placeholder="digite seu e-mail"
-                required
+                placeholder={emailError ? 'Informe seu e-mail!' : 'Seu e-mail'}
+                className={emailError ? 'erroNome' : ''}
               />
             </User>
             <Password>
               <Text>Senha</Text>
               <PasswordInput
-                placeholder="Digite sua senha"
+                placeholder={
+                  passwordError ? 'Informe uma senha!' : 'Digite sua senha'
+                }
                 ref={registerPasswordRef}
+                className={passwordError ? 'erroNome' : ''}
               />
             </Password>
             <RegisterButton onClick={handleRegister} loading={loading}>
-              {loading && (
-                <DotContainer loading={loading}>
-                  <DotTop1 />
-                  <DotTop2 />
-                  <DotLeft />
-                  <DotRight />
-                </DotContainer>
-              )}
+              {loading && <Loading loading={loading} />}
             </RegisterButton>
             <RegisterContent>
               <RegisterText>Já possui cadastro?</RegisterText>

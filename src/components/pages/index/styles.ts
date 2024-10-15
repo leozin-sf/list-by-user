@@ -39,11 +39,16 @@ export const LoginContainer = styled.div`
 `;
 
 export const User = styled.label`
-  .Error {
+  .erroNome {
+    outline: 0.125rem solid ${(p) => p.theme.colors.loginPage.error};
   }
 `;
 
-export const Password = styled.label``;
+export const Password = styled.label`
+  .erroNome {
+    outline: 0.125rem solid ${(p) => p.theme.colors.loginPage.error};
+  }
+`;
 
 export const Text = styled.h3`
   margin: 0;
