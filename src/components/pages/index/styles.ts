@@ -36,9 +36,10 @@ export const LoginContainer = styled.div`
   input {
     height: 1.4rem;
     border-radius: 0.5rem;
+    border: none;
 
     :focus {
-      outline: 2px solid ${(p) => p.theme.colors.loginPage.inputBorder};
+      outline: 0.125rem solid ${(p) => p.theme.colors.loginPage.inputBorder};
       border-radius: 0.5rem;
     }
   }
@@ -107,7 +108,7 @@ export const LogginButton = styled.button<{ loading: boolean }>`
   align-items: center;
   position: relative;
   border-radius: 0.5rem;
-  border: 0px solid transparent;
+  border: 0rem solid transparent;
   font-weight: bold;
   font-size: 0.875rem;
 
