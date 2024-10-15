@@ -26,6 +26,8 @@ export const LoginContainer = styled.div`
 
   input {
     height: 1.4rem;
+    width: -webkit-fill-available;
+    padding: 0 0.5rem;
     border-radius: 0.5rem;
     border: none;
 
@@ -54,7 +56,7 @@ export const Text = styled.h3`
 const Dot = styled.div`
   width: 0.5rem;
   height: 0.5rem;
-  background-color: #fff;
+  background-color: ${(p) => p.theme.colors.loginPage.text};
   border-radius: 50%;
   position: absolute;
 `;
@@ -123,10 +125,48 @@ export const LogginButton = styled.button<{ loading: boolean }>`
         `}
 `;
 
+export const RegisterButton = styled(LogginButton)`
+  ${(props) =>
+    props.loading
+      ? css`
+          ::after {
+            content: '';
+          }
+        `
+      : css`
+          ::after {
+            content: 'Registrar';
+          }
+        `}
+`;
+
 export const Error = styled.div``;
 
 export const ErrorMessage = styled.p`
-  color: red;
+  color: ${(p) => p.theme.colors.loginPage.text};
   text-align: center;
+  font-weight: bold;
   margin: 0;
+`;
+
+export const RegisterContent = styled.div``;
+
+export const LoginText = styled.p`
+  color: ${(p) => p.theme.colors.loginPage.white};
+  margin: 0;
+  text-align: left;
+  &:nth-of-type(2) {
+    text-align: center;
+
+    a {
+      color: ${(p) => p.theme.colors.loginPage.hoverButton};
+      text-decoration: underline;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  }
+`;
+
+export const RegisterText = styled(LoginText)`
+  text-align: center;
 `;
