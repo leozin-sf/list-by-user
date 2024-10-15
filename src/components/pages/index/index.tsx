@@ -2,6 +2,8 @@ import React, { useState, FormEvent } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { supaString } from './types';
 
+import Container from '../../layout/Container';
+
 import {
   Page,
   LoginContainer,
@@ -58,42 +60,44 @@ function Main() {
 
   return (
     <Page>
-      <LoginContainer>
-        <User>
-          <Text>Login</Text>
-          <input
-            name="Login"
-            placeholder="E-mail"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </User>
-        <Password>
-          <Text>Senha</Text>
-          <input
-            name="Password"
-            type="password"
-            placeholder="Senha"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </Password>
-        <LogginButton onClick={handleLogin} loading={loading}>
-          {loading && (
-            <DotContainer loading={loading}>
-              <DotTop1 />
-              <DotTop2 />
-              <DotLeft />
-              <DotRight />
-            </DotContainer>
+      <Container>
+        <LoginContainer>
+          <User>
+            <Text>Login</Text>
+            <input
+              name="Login"
+              placeholder="E-mail"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </User>
+          <Password>
+            <Text>Senha</Text>
+            <input
+              name="Password"
+              type="password"
+              placeholder="Senha"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Password>
+          <LogginButton onClick={handleLogin} loading={loading}>
+            {loading && (
+              <DotContainer loading={loading}>
+                <DotTop1 />
+                <DotTop2 />
+                <DotLeft />
+                <DotRight />
+              </DotContainer>
+            )}
+          </LogginButton>
+          {showWarning && (
+            <Error>
+              <ErrorMessage>Erro ao realizar login</ErrorMessage>
+            </Error>
           )}
-        </LogginButton>
-        {showWarning && (
-          <Error>
-            <ErrorMessage>Erro ao realizar login</ErrorMessage>
-          </Error>
-        )}
-      </LoginContainer>
+        </LoginContainer>
+      </Container>
     </Page>
   );
 }
