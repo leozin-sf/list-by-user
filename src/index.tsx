@@ -4,7 +4,10 @@ import './index.css';
 import { ThemeProvider } from '@emotion/react';
 import theme from './styles/theme';
 
-import Main from '../src/components/pages/index';
+import ProtectedRoute from './components/auth/ProtectedRoute';
+
+import Main from './components/pages/Index/index';
+import { ToDoList } from './components/pages/ToDoList';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -17,6 +20,14 @@ root.render(
       <Router>
         <Routes>
           <Route path="/" element={<Main />} />
+          <Route
+            path="/to-do-list"
+            element={
+              <ProtectedRoute>
+                <ToDoList />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </Router>
     </ThemeProvider>
