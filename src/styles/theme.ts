@@ -11,6 +11,7 @@ const colors: Colors = {
     white: '#ffffff',
     loginGradient: 'radial-gradient(circle, #5c0067 0%, #00d4ff 100%)',
     hoverButton: '#5c0067',
+    error: '#FF5C5C',
   },
 };
 const breakpoints: Breakpoints = {

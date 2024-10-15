@@ -9,6 +9,7 @@ export interface Colors {
     inputBorder: string;
     loginGradient: string;
     hoverButton: string;
+    error: string;
   };
 }
 
