@@ -103,7 +103,7 @@ function Main() {
       } else if (data.user) {
         const { error } = await supabase
           .from('users')
-          .insert([{ email: data.user.email, name: name }]);
+          .insert([{ id: data.user.id, email: data.user.email, name: name }]);
 
         if (error) {
           console.log('Erro ao registrar nome de usuário', error);
@@ -116,7 +116,7 @@ function Main() {
     } finally {
       setTimeout(() => {
         setLoading(false);
-      }, 3000);
+      }, 1400);
     }
   };
 
@@ -158,11 +158,11 @@ function Main() {
         setShowWarning(true);
         setTimeout(() => {
           setShowWarning(false);
-        }, 2000);
+        }, 5000);
       } else {
         setTimeout(() => {
           setLoading(false);
-        }, 3000);
+        }, 1400);
         navigate('/to-do-list');
       }
     } catch (error) {
@@ -170,7 +170,7 @@ function Main() {
     } finally {
       setTimeout(() => {
         setLoading(false);
-      }, 3000);
+      }, 1400);
     }
   };
 
