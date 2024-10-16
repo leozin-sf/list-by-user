@@ -44,11 +44,7 @@ export const User = styled.label`
   }
 `;
 
-export const Password = styled.label`
-  .erroNome {
-    outline: 0.125rem solid ${(p) => p.theme.colors.loginPage.error};
-  }
-`;
+export const Password = styled.label``
 
 export const Text = styled.h3`
   margin: 0;
@@ -98,7 +94,7 @@ export const DotContainer = styled.div`
     `}
 `;
 
-export const LogginButton = styled.button<{ loading: boolean }>`
+export const LoginButton = styled.button<{ loading: boolean }>`
   width: 100%;
   height: 2rem;
   display: flex;
@@ -130,7 +126,7 @@ export const LogginButton = styled.button<{ loading: boolean }>`
         `}
 `;
 
-export const RegisterButton = styled(LogginButton)`
+export const RegisterButton = styled(LoginButton)`
   ${(props) =>
     props.loading
       ? css`
@@ -144,6 +140,8 @@ export const RegisterButton = styled(LogginButton)`
           }
         `}
 `;
+
+export const ResetPasswordButton = styled(LoginButton)``
 
 export const Error = styled.div``;
 
@@ -159,9 +157,9 @@ export const RegisterContent = styled.div``;
 export const LoginText = styled.p`
   color: ${(p) => p.theme.colors.loginPage.white};
   margin: 0;
-  text-align: left;
+  text-align: center;
+
   &:nth-of-type(2) {
-    text-align: center;
 
     a {
       color: ${(p) => p.theme.colors.loginPage.hoverButton};
@@ -169,6 +167,20 @@ export const LoginText = styled.p`
       font-weight: bold;
       cursor: pointer;
     }
+  }
+`;
+
+export const PasswordLogin = styled(Password)`
+  ${LoginText}{
+    &:nth-of-type(1) {
+    padding-top: 0.5rem;
+    font-size: 0.5625rem;
+
+    a {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
   }
 `;
 

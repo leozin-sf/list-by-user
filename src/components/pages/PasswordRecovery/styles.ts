@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
-import { LogginButton, User } from '../Index/styles';
+import { LoginButton, User } from '../Index/styles';
 
 export const Content = styled.div``;
 
@@ -11,7 +11,7 @@ export const UserReset = styled(User)`
   }
 `;
 
-export const RecoveryButton = styled(LogginButton)`
+export const RecoveryButton = styled(LoginButton)`
   ${(props) =>
     props.loading
       ? css`

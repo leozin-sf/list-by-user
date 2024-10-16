@@ -9,9 +9,11 @@ import {
   LoginContainer,
   User,
   Password,
+  PasswordLogin,
   Text,
-  LogginButton,
+  LoginButton,
   RegisterButton,
+  ResetPasswordButton,
   Error,
   ErrorMessage,
   RegisterContent,
@@ -28,6 +30,7 @@ function Main() {
   const registerNameRef = useRef<HTMLInputElement>(null);
   const [showLogin, setShowLogin] = useState<boolean>(true);
   const [showRegister, setShowRegister] = useState<boolean>(false);
+  const [showResetPassword, setShowResetPassword] = useState<boolean>(false);
   const [nameError, setNameError] = useState<boolean>(false);
   const [emailError, setEmailError] = useState<boolean>(false);
   const [passwordError, setPasswordError] = useState<boolean>(false);
@@ -45,6 +48,12 @@ function Main() {
     setShowRegister(false);
     setShowLogin(true);
     setShowWarning(false);
+  };
+
+  const showResetPasswordForm = () => {
+    setShowResetPassword(true);
+    setShowRegister(false);
+    setShowLogin(false);
   };
 
   const handleRegister = async (e: FormEvent) => {
@@ -174,6 +183,8 @@ function Main() {
     }
   };
 
+  const handleResetPassword = async () => {};
+
   return (
     <Container>
       <LoginContainer>
@@ -189,17 +200,21 @@ function Main() {
                 className={emailError ? 'erroNome' : ''}
               />
             </User>
-            <Password>
+            <PasswordLogin>
               <Text>Senha</Text>
               <PasswordInput
                 placeholder="Digite sua senha"
                 ref={passwordRef}
                 className={passwordError ? 'erroNome' : ''}
               />
-            </Password>
-            <LogginButton onClick={handleLogin} loading={loading}>
+              <LoginText>
+                Esqueceu sua senha? Clique
+                <a onClick={showResetPasswordForm}>aqui</a>!
+              </LoginText>
+            </PasswordLogin>
+            <LoginButton onClick={handleLogin} loading={loading}>
               {loading && <Loading loading={loading} />}
-            </LogginButton>
+            </LoginButton>
 
             <RegisterContent>
               <LoginText>Ainda não possui cadastro?</LoginText>
@@ -258,6 +273,19 @@ function Main() {
                 <ErrorMessage>E-mail já cadastrado!</ErrorMessage>
               </Error>
             )}
+          </>
+        )}
+        {showResetPassword && (
+          <>
+            <User>
+              <input type="email" placeholder="Digite seu email" />
+              <ResetPasswordButton
+                onClick={handleResetPassword}
+                loading={loading}
+              >
+                {loading && <Loading loading={loading} />}
+              </ResetPasswordButton>
+            </User>
           </>
         )}
       </LoginContainer>
