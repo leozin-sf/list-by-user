@@ -11,6 +11,7 @@ import { ToDoList } from './components/pages/ToDoList';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/layout/Layout';
+import { PasswordRecovery } from './components/pages/PasswordRecovery';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -30,6 +31,7 @@ root.render(
                 </ProtectedRoute>
               }
             />
+            <Route path="/password-recovery" element={<PasswordRecovery />} />
           </Routes>
         </Layout>
       </Router>
