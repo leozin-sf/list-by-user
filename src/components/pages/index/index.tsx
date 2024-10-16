@@ -29,6 +29,7 @@ function Main() {
   const registerEmailRef = useRef<HTMLInputElement>(null); // para register
   const registerPasswordRef = useRef<HTMLInputElement>(null); // para register
   const registerNameRef = useRef<HTMLInputElement>(null); // para register
+  const registerLastNameRef = useRef<HTMLInputElement>(null); // para register
   const emailRecoverPasswordRef = useRef<HTMLInputElement>(null); // para recuperar senha
   const [showLogin, setShowLogin] = useState<boolean>(true);
   const [showRegister, setShowRegister] = useState<boolean>(false);
@@ -71,6 +72,7 @@ function Main() {
     const email = registerEmailRef.current?.value;
     const password = registerPasswordRef.current?.value;
     const name = registerNameRef.current?.value;
+    const lastName = registerLastNameRef.current?.value;
 
     let hasError = false;
     if (!name || name.trim() === '') {
@@ -104,7 +106,7 @@ function Main() {
         email: email || '',
         password: password || '',
         options: {
-          data: { name: name },
+          data: { name: name, lastName: lastName },
         },
       });
 
@@ -118,9 +120,14 @@ function Main() {
 
         console.log(error.message);
       } else if (data.user) {
-        const { error } = await supabase
-          .from('users')
-          .insert([{ id: data.user.id, email: data.user.email, name: name }]);
+        const { error } = await supabase.from('users').insert([
+          {
+            id: data.user.id,
+            email: email,
+            name: name,
+            lastName: lastName,
+          },
+        ]);
 
         if (error) {
           console.log('Erro ao registrar nome de usuário', error);
@@ -212,7 +219,23 @@ function Main() {
     }
 
     try {
-      let { data, error } = await supabase.auth.resetPasswordForEmail(
+      const { data: user, error: userError } = await supabase
+        .from('users')
+        .select('email')
+        .eq('email', email)
+        .single();
+
+      if (userError || !user) {
+        console.log('Email não encontrado na tabela users');
+        setShowWarning(true);
+        setTimeout(() => {
+          setShowWarning(false);
+        }, 5000);
+        setLoading(false);
+        return;
+      }
+
+      const { data, error } = await supabase.auth.resetPasswordForEmail(
         email || ''
       );
       if (error) {
@@ -285,6 +308,17 @@ function Main() {
                 ref={registerNameRef}
                 type="text"
                 placeholder={nameError ? 'Informe seu nome!' : 'Seu Nome'}
+                className={nameError ? 'erroNome' : ''}
+              />
+            </User>
+            <User>
+              <Text>Sobrenome</Text>
+              <input
+                ref={registerLastNameRef}
+                type="text"
+                placeholder={
+                  nameError ? 'Informe seu sobrenome!' : 'Seu Sobrenome'
+                }
                 className={nameError ? 'erroNome' : ''}
               />
             </User>
