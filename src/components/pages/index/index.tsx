@@ -19,15 +19,17 @@ import {
   RegisterContent,
   LoginText,
   RegisterText,
+  TextReset,
 } from './styles';
 import { Loading } from '../../common/DotLoading';
 
 function Main() {
-  const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
-  const registerEmailRef = useRef<HTMLInputElement>(null);
-  const registerPasswordRef = useRef<HTMLInputElement>(null);
-  const registerNameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null); // para login
+  const passwordRef = useRef<HTMLInputElement>(null); // para login
+  const registerEmailRef = useRef<HTMLInputElement>(null); // para register
+  const registerPasswordRef = useRef<HTMLInputElement>(null); // para register
+  const registerNameRef = useRef<HTMLInputElement>(null); // para register
+  const emailRecoverPasswordRef = useRef<HTMLInputElement>(null); // para recuperar senha
   const [showLogin, setShowLogin] = useState<boolean>(true);
   const [showRegister, setShowRegister] = useState<boolean>(false);
   const [showResetPassword, setShowResetPassword] = useState<boolean>(false);
@@ -42,18 +44,24 @@ function Main() {
     setShowRegister(true);
     setShowLogin(false);
     setShowWarning(false);
+    setEmailError(false);
+    setPasswordError(false);
   };
 
   const showLoginForm = () => {
     setShowRegister(false);
     setShowLogin(true);
     setShowWarning(false);
+    setEmailError(false);
+    setPasswordError(false);
   };
 
   const showResetPasswordForm = () => {
     setShowResetPassword(true);
     setShowRegister(false);
     setShowLogin(false);
+    setEmailError(false);
+    setPasswordError(false);
   };
 
   const handleRegister = async (e: FormEvent) => {
@@ -183,7 +191,47 @@ function Main() {
     }
   };
 
-  const handleResetPassword = async () => {};
+  const handleResetPassword = async (e: FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const email = emailRecoverPasswordRef?.current?.value;
+
+    let hasError = false;
+
+    if (!email || email.trim() === '') {
+      setEmailError(true);
+      hasError = true;
+    } else {
+      setEmailError(false);
+    }
+
+    if (hasError) {
+      setLoading(false);
+      return;
+    }
+
+    try {
+      let { data, error } = await supabase.auth.resetPasswordForEmail(
+        email || ''
+      );
+      if (error) {
+        console.log(error);
+      } else {
+        setShowWarning(true);
+        setTimeout(() => {
+          setShowWarning(false);
+          setShowResetPassword(false);
+          setShowLogin(true);
+        }, 5000);
+        console.log('Email de redefinição de senha enviado');
+      }
+    } catch (error) {
+      console.log('Erro ao enviar redefinição de senha', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Container>
@@ -277,15 +325,24 @@ function Main() {
         )}
         {showResetPassword && (
           <>
-            <User>
-              <input type="email" placeholder="Digite seu email" />
-              <ResetPasswordButton
-                onClick={handleResetPassword}
-                loading={loading}
-              >
-                {loading && <Loading loading={loading} />}
-              </ResetPasswordButton>
-            </User>
+            <TextReset>Informe o e-mail cadastrado</TextReset>
+            <input
+              ref={emailRecoverPasswordRef}
+              type="email"
+              placeholder="Digite seu email"
+              className={emailError ? 'erroNome' : ''}
+            />
+            <ResetPasswordButton
+              onClick={handleResetPassword}
+              loading={loading}
+            >
+              {loading && <Loading loading={loading} />}
+            </ResetPasswordButton>
+            {showWarning && (
+              <Error>
+                <ErrorMessage>E-mail enviado!</ErrorMessage>
+              </Error>
+            )}
           </>
         )}
       </LoginContainer>

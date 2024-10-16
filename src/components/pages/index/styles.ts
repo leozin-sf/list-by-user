@@ -36,13 +36,13 @@ export const LoginContainer = styled.div`
       border-radius: 0.5rem;
     }
   }
-`;
 
-export const User = styled.label`
   .erroNome {
     outline: 0.125rem solid ${(p) => p.theme.colors.loginPage.error};
   }
 `;
+
+export const User = styled.label``;
 
 export const Password = styled.label``;
 
@@ -141,7 +141,20 @@ export const RegisterButton = styled(LoginButton)`
         `}
 `;
 
-export const ResetPasswordButton = styled(LoginButton)``;
+export const ResetPasswordButton = styled(LoginButton)`
+  ${(props) =>
+    props.loading
+      ? css`
+          ::after {
+            content: '';
+          }
+        `
+      : css`
+          ::after {
+            content: 'Enviar e-mail';
+          }
+        `}
+`;
 
 export const Error = styled.div``;
 
@@ -169,8 +182,21 @@ export const LoginText = styled.p`
   }
 `;
 
-export const PasswordLogin = styled(Password)``;
+export const PasswordLogin = styled(Password)`
+  & > :nth-child(3) {
+    padding-top: 0.5rem;
+    font-size: 0.5625rem;
+    a {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+`;
 
 export const RegisterText = styled(LoginText)`
   text-align: center;
+`;
+
+export const TextReset = styled(Text)`
+  max-width: 12rem;
 `;
