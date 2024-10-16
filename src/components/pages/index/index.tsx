@@ -20,6 +20,7 @@ import {
   LoginText,
   RegisterText,
   TextReset,
+  GoBackButton,
 } from './styles';
 import { Loading } from '../../common/DotLoading';
 
@@ -63,6 +64,11 @@ function Main() {
     setShowLogin(false);
     setEmailError(false);
     setPasswordError(false);
+  };
+
+  const showLoginAgain = () => {
+    setShowResetPassword(false);
+    setShowLogin(true);
   };
 
   const handleRegister = async (e: FormEvent) => {
@@ -359,6 +365,7 @@ function Main() {
         )}
         {showResetPassword && (
           <>
+            <GoBackButton onClick={showLoginAgain}>Voltar</GoBackButton>
             <TextReset>Informe o e-mail cadastrado</TextReset>
             <input
               ref={emailRecoverPasswordRef}

@@ -200,3 +200,10 @@ export const RegisterText = styled(LoginText)`
 export const TextReset = styled(Text)`
   max-width: 12rem;
 `;
+
+export const GoBackButton = styled.button`
+  position: fixed;
+  top: 0;
+  right: 0;
+  transform: translate(-0.625rem, 0.625rem)
+`
