@@ -44,7 +44,7 @@ export const User = styled.label`
   }
 `;
 
-export const Password = styled.label``
+export const Password = styled.label``;
 
 export const Text = styled.h3`
   margin: 0;
@@ -141,7 +141,7 @@ export const RegisterButton = styled(LoginButton)`
         `}
 `;
 
-export const ResetPasswordButton = styled(LoginButton)``
+export const ResetPasswordButton = styled(LoginButton)``;
 
 export const Error = styled.div``;
 
@@ -160,7 +160,6 @@ export const LoginText = styled.p`
   text-align: center;
 
   &:nth-of-type(2) {
-
     a {
       color: ${(p) => p.theme.colors.loginPage.hoverButton};
       text-decoration: underline;
@@ -171,16 +170,16 @@ export const LoginText = styled.p`
 `;
 
 export const PasswordLogin = styled(Password)`
-  ${LoginText}{
+  ${LoginText} {
     &:nth-of-type(1) {
-    padding-top: 0.5rem;
-    font-size: 0.5625rem;
+      padding-top: 0.5rem;
+      font-size: 0.5625rem;
 
-    a {
-      text-decoration: underline;
-      cursor: pointer;
+      a {
+        text-decoration: underline;
+        cursor: pointer;
+      }
     }
-  }
   }
 `;
 
