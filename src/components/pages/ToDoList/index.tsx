@@ -11,6 +11,12 @@ import {
   Wellcome,
   WellcomeText,
   UserNameText,
+  ListContent,
+  NewTaskDiv,
+  AddTask,
+  Tasks,
+  Task,
+  TaskText,
 } from './styles';
 
 import { TaskTypes } from './types';
@@ -124,16 +130,23 @@ export function ToDoList() {
           </Wellcome>
           <LogoutButton onClick={signOutApp}>Logout</LogoutButton>
         </Menu>
-        <h1>Login Realizado!</h1>
-        <form>
-          <input type="text" placeholder="Adicionar tarefa" ref={newTaskText} />
-          <button onClick={handleAddTask}>Adicionar</button>
-        </form>
-        <ul>
-          {tasks.map((task) => (
-            <li key={task.id}>{task.text}</li>
-          ))}
-        </ul>
+        <ListContent>
+          <NewTaskDiv>
+            <input
+              type="textarea"
+              placeholder="Adicionar tarefa"
+              ref={newTaskText}
+            />
+            <AddTask onClick={handleAddTask}>Adicionar</AddTask>
+          </NewTaskDiv>
+          <Tasks>
+            {tasks.map((task) => (
+              <Task>
+                <TaskText key={task.id}>{task.text}</TaskText>
+              </Task>
+            ))}
+          </Tasks>
+        </ListContent>
       </Container>
     </Content>
   );
