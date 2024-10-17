@@ -1,5 +1,5 @@
-export interface Task {
-    id: string
-    text: string
-    task_confirmed: boolean
+export interface TaskTypes {
+  id: string;
+  text: string;
+  task_confirmed: boolean;
 }
