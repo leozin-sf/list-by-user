@@ -138,7 +138,6 @@ function Main() {
         if (error) {
           console.log('Erro ao registrar nome de usuário', error);
         } else {
-          localStorage.setItem('user_email', email as string);
           setTimeout(() => {
             setLoading(false);
           }, 1400);
@@ -194,7 +193,6 @@ function Main() {
           setShowWarning(false);
         }, 5000);
       } else {
-        localStorage.setItem('user_email', email as string);
         setTimeout(() => {
           setLoading(false);
         }, 1400);

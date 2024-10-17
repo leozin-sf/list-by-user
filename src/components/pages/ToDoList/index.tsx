@@ -13,9 +13,12 @@ import {
   UserNameText,
 } from './styles';
 
+import { Task } from './types';
+
 export function ToDoList() {
   const navigate = useNavigate();
   const [userName, setUserName] = useState<string>('');
+  const [tasks, setTasks] = useState<Task[]>([]);
 
   const signOutApp = async () => {
     try {
@@ -30,24 +33,32 @@ export function ToDoList() {
   };
 
   useEffect(() => {
-    const fetchUserName = async () => {
-      const userEmail = localStorage.getItem('user_email');
-      if (userEmail) {
-        const { data, error } = await supabase
-          .from('users')
-          .select('name')
-          .eq('email', userEmail)
-          .single();
-
+    const getUserId = async () => {
+      try {
+        const {
+          data: { user },
+          error,
+        } = await supabase.auth.getUser();
         if (error) {
           console.log(error);
+        } else if (user) {
+          const { data: users, error: errorUsers } = await supabase
+            .from('users')
+            .select('name')
+            .eq('id', user.id)
+            .single();
+          if (errorUsers) {
+            console.log(errorUsers);
+          } else {
+            setUserName(users.name);
+          }
         } else {
-          setUserName(data.name);
+          console.log('User not found');
         }
-      }
+      } catch (error) {}
     };
 
-    fetchUserName();
+    getUserId();
   }, []);
 
   return (
