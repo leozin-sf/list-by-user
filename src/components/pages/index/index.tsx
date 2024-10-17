@@ -112,7 +112,7 @@ function Main() {
         email: email || '',
         password: password || '',
         options: {
-          data: { name: name, lastName: lastName },
+          data: { name: name, last_name: lastName },
         },
       });
 
@@ -131,13 +131,17 @@ function Main() {
             id: data.user.id,
             email: email,
             name: name,
-            lastName: lastName,
+            last_name: lastName,
           },
         ]);
 
         if (error) {
           console.log('Erro ao registrar nome de usuário', error);
         } else {
+          localStorage.setItem('user_email', email as string);
+          setTimeout(() => {
+            setLoading(false);
+          }, 1400);
           navigate('/to-do-list');
         }
       }
@@ -190,6 +194,7 @@ function Main() {
           setShowWarning(false);
         }, 5000);
       } else {
+        localStorage.setItem('user_email', email as string);
         setTimeout(() => {
           setLoading(false);
         }, 1400);
