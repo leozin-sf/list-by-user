@@ -1,15 +1,19 @@
 export interface Colors {
   background: string;
   text: string;
+  white: string;
 
   loginPage: {
     background: string;
     text: string;
-    white: string;
     inputBorder: string;
     loginGradient: string;
     hoverButton: string;
     error: string;
+  };
+
+  toDoListPage: {
+    userText: string;
   };
 }
 

@@ -3,15 +3,19 @@ import { Colors, Breakpoints, Typography, Theme } from './types';
 const colors: Colors = {
   background: '#282c34',
   text: '#000000',
+  white: '#ffffff',
 
   loginPage: {
     background: '#282c34',
     inputBorder: 'lightblue',
     text: '#000000',
-    white: '#ffffff',
     loginGradient: 'radial-gradient(circle, #5c0067 0%, #00d4ff 100%)',
     hoverButton: '#5c0067',
     error: '#FF5C5C',
+  },
+
+  toDoListPage: {
+    userText: '#786518',
   },
 };
 const breakpoints: Breakpoints = {

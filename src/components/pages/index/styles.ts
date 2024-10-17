@@ -42,7 +42,7 @@ export const Text = styled.h3`
   text-align: center;
   padding-bottom: 0.8rem;
   font-size: 1.375rem;
-  color: ${(p) => p.theme.colors.loginPage.white};
+  color: ${(p) => p.theme.colors.white};
 `;
 
 export const LoginButton = styled.button<{ loading: boolean }>`
@@ -60,7 +60,7 @@ export const LoginButton = styled.button<{ loading: boolean }>`
   :hover {
     cursor: pointer;
     background-color: ${(p) => p.theme.colors.loginPage.hoverButton};
-    color: ${(p) => p.theme.colors.loginPage.white};
+    color: ${(p) => p.theme.colors.white};
   }
 
   ${(props) =>
@@ -110,7 +110,7 @@ export const ResetPasswordButton = styled(LoginButton)`
 export const Error = styled.div``;
 
 export const ErrorMessage = styled.p`
-  color: ${(p) => p.theme.colors.loginPage.text};
+  color: ${(p) => p.theme.colors.text};
   text-align: center;
   font-weight: bold;
   margin: 0;
@@ -119,7 +119,7 @@ export const ErrorMessage = styled.p`
 export const RegisterContent = styled.div``;
 
 export const LoginText = styled.p`
-  color: ${(p) => p.theme.colors.loginPage.white};
+  color: ${(p) => p.theme.colors.white};
   margin: 0;
   text-align: center;
 
@@ -156,5 +156,5 @@ export const GoBackButton = styled.button`
   position: fixed;
   top: 0;
   right: 0;
-  transform: translate(-0.625rem, 0.625rem)
-`
+  transform: translate(-0.625rem, 0.625rem);
+`;
