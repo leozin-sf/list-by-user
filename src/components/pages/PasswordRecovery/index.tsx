@@ -67,6 +67,7 @@ export function PasswordRecovery() {
             <PasswordInput
               placeholder="Repita sua senha"
               ref={confirmedPassword}
+              onEnterPress={changePassword}
             />
           </UserReset>
           <RecoveryButton onClick={changePassword} loading={loading}>

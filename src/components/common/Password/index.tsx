@@ -3,7 +3,7 @@ import { PasswordContent } from './styles';
 import { PasswordTypes } from './types';
 
 const PasswordInput = forwardRef<HTMLInputElement, PasswordTypes>(
-  ({ placeholder, className, ...props }, ref) => {
+  ({ placeholder, className, onEnterPress, ...props }, ref) => {
     const [showPassword, setShowPassword] = useState(false);
 
     return (
@@ -13,6 +13,11 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordTypes>(
           type={showPassword ? 'text' : 'password'}
           placeholder={placeholder}
           className={className}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && onEnterPress) {
+              onEnterPress(e);
+            }
+          }}
           {...props}
         />
         <button type="button" onClick={() => setShowPassword(!showPassword)}>

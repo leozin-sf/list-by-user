@@ -136,6 +136,11 @@ export function ToDoList() {
               type="textarea"
               placeholder="Adicionar tarefa"
               ref={newTaskText}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleAddTask(e);
+                }
+              }}
             />
             <AddTask onClick={handleAddTask}>Adicionar</AddTask>
           </NewTaskDiv>

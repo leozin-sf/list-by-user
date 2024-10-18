@@ -286,9 +286,10 @@ function Main() {
                 placeholder="Digite sua senha"
                 ref={passwordRef}
                 className={passwordError ? 'erroNome' : ''}
+                onEnterPress={handleLogin}
               />
               <LoginText>
-                Esqueceu sua senha? Clique
+                Esqueceu sua senha? Clique{' '}
                 <a onClick={showResetPasswordForm}>aqui</a>!
               </LoginText>
             </PasswordLogin>
@@ -348,6 +349,7 @@ function Main() {
                 }
                 ref={registerPasswordRef}
                 className={passwordError ? 'erroNome' : ''}
+                onEnterPress={handleRegister}
               />
             </Password>
             <RegisterButton onClick={handleRegister} loading={loading}>
