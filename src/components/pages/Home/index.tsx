@@ -123,8 +123,6 @@ function Main() {
             setShowWarning(false);
           }, 10000);
         }
-
-        console.log(error.message);
       } else if (data.user) {
         const { error } = await supabase.from('users').insert([
           {
@@ -136,7 +134,6 @@ function Main() {
         ]);
 
         if (error) {
-          console.log('Erro ao registrar nome de usuário', error);
         } else {
           setTimeout(() => {
             setLoading(false);
@@ -145,7 +142,7 @@ function Main() {
         }
       }
     } catch (error) {
-      console.error('Erro no registro', error);
+      // console.error('Erro no registro', error);
     } finally {
       setTimeout(() => {
         setLoading(false);
@@ -187,7 +184,6 @@ function Main() {
         password: password || '',
       });
       if (error) {
-        console.log(error.message);
         setShowWarning(true);
         setTimeout(() => {
           setShowWarning(false);
@@ -199,7 +195,7 @@ function Main() {
         navigate('/to-do-list');
       }
     } catch (error) {
-      console.error('Erro no login', error);
+      // console.error('Erro no login', error);
     } finally {
       setTimeout(() => {
         setLoading(false);
@@ -235,7 +231,6 @@ function Main() {
         .single();
 
       if (userError || !user) {
-        console.log('Email não encontrado na tabela users');
         setShowWarning(true);
         setTimeout(() => {
           setShowWarning(false);
@@ -248,7 +243,6 @@ function Main() {
         email || ''
       );
       if (error) {
-        console.log(error);
       } else {
         setShowWarning(true);
         setTimeout(() => {
@@ -256,10 +250,8 @@ function Main() {
           setShowResetPassword(false);
           setShowLogin(true);
         }, 5000);
-        console.log('Email de redefinição de senha enviado');
       }
     } catch (error) {
-      console.log('Erro ao enviar redefinição de senha', error);
     } finally {
       setLoading(false);
     }

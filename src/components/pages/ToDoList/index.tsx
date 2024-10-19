@@ -28,14 +28,14 @@ const getUserId = async () => {
       error,
     } = await supabase.auth.getUser();
     if (error) {
-      console.log('Erro on getUser', error);
+      // console.log('Erro on getUser', error);
       return null;
     }
     if (user) {
-      console.log('ID do usuário', user.id);
+      // console.log('ID do usuário', user.id);
       return user.id;
     } else {
-      console.log('Usuário não autenticado');
+      // console.log('Usuário não autenticado');
       return null;
     }
   } catch (error) {}
@@ -55,7 +55,7 @@ export function ToDoList() {
       .order('created_at', { ascending: false });
 
     if (tasksError) {
-      console.log(tasksError);
+      // console.log(tasksError);
     } else {
       setTasks(tasksData);
     }
@@ -73,7 +73,7 @@ export function ToDoList() {
             .eq('id', userID)
             .single();
           if (userError) {
-            console.log(userError);
+            // console.log(userError);
             return;
           }
 
@@ -91,7 +91,7 @@ export function ToDoList() {
       const { error } = await supabase.auth.signOut();
 
       if (error) {
-        console.log(error);
+        // console.log(error);
       } else {
         navigate('/');
       }
@@ -112,7 +112,7 @@ export function ToDoList() {
       ]);
 
       if (error) {
-        console.log('Erro em todolist, erro');
+        // console.log('Erro em todolist, erro');
       } else {
         getTasks(userID);
         newTaskText.current.value = '';
