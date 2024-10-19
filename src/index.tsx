@@ -6,7 +6,7 @@ import theme from './styles/theme';
 
 import ProtectedRoute from './components/auth/ProtectedRoute';
 
-import Main from './components/pages/Index/index';
+import Main from './components/pages/Home/index';
 import { ToDoList } from './components/pages/ToDoList';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';

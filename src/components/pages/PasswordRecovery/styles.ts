@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
-import { LoginButton, User } from '../Index/styles';
+import { LoginButton, User } from '../Home/styles';
 
 export const Content = styled.div``;
 

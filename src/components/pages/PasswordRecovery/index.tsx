@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Container from '../../layout/Container';
 import { Loading } from '../../common/DotLoading';
-import { LoginContainer, User, ErrorMessage } from '../Index/styles';
+import { LoginContainer, User, ErrorMessage } from '../Home/styles';
 import { Content, UserReset, RecoveryButton } from './styles';
 import PasswordInput from '../../common/Password';
 
