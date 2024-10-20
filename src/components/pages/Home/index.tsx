@@ -128,7 +128,7 @@ function Main() {
       } else if (data.user) {
         const { error } = await supabase.from('users').insert([
           {
-            id: data.user.id,
+            user_id: data.user.id,
             email: email,
             name: name,
             last_name: lastName,
