@@ -13,6 +13,11 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import { PasswordRecovery } from './components/pages/PasswordRecovery';
 
+if (process.env.NODE_ENV !== 'development') {
+  console.log = function () {};
+  console.error = function () {};
+}
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
