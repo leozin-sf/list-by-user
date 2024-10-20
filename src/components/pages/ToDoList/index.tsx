@@ -172,7 +172,7 @@ export function ToDoList() {
           </NewTaskDiv>
           <Tasks>
             {tasks.map((task) => (
-              <Task key={task.id}>
+              <Task key={task.list_id}>
                 <TaskText>{task.text}</TaskText>
                 <ExcludeButton onClick={() => deleteTask(task.list_id)}>
                   Del
