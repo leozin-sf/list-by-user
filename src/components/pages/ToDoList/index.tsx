@@ -17,6 +17,7 @@ import {
   Tasks,
   Task,
   TaskText,
+  ExcludeButton,
 } from './styles';
 
 import { TaskTypes } from './types';
@@ -51,7 +52,7 @@ export function ToDoList() {
     const { data: tasksData, error: tasksError } = await supabase
       .from('to_do_list')
       .select('*')
-      .eq('id', userID)
+      .eq('user_id', userID)
       .order('created_at', { ascending: false });
 
     if (tasksError) {
@@ -70,7 +71,7 @@ export function ToDoList() {
           const { data: userData, error: userError } = await supabase
             .from('users')
             .select('*')
-            .eq('id', userID)
+            .eq('user_id', userID)
             .single();
           if (userError) {
             // console.log(userError);
@@ -107,7 +108,7 @@ export function ToDoList() {
         {
           text: newTaskText.current.value,
           task_confirmed: false,
-          id: userID,
+          user_id: userID,
         },
       ]);
 
@@ -117,6 +118,31 @@ export function ToDoList() {
         getTasks(userID);
         newTaskText.current.value = '';
       }
+    }
+  };
+
+  const deleteTask = async (taskID: string) => {
+    const userID = await getUserId();
+
+    if (!userID) {
+      console.log('Usuário não autenticado ou erro ao obter ID do usuário.');
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from('to_do_list')
+        .delete()
+        .eq('list_id', taskID)
+        .eq('user_id', userID);
+
+      if (error) {
+        console.log('Erro ao deletar tarefa', error);
+      } else {
+        getTasks(userID);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -146,8 +172,11 @@ export function ToDoList() {
           </NewTaskDiv>
           <Tasks>
             {tasks.map((task) => (
-              <Task>
-                <TaskText key={task.id}>{task.text}</TaskText>
+              <Task key={task.list_id}>
+                <TaskText>{task.text}</TaskText>
+                <ExcludeButton onClick={() => deleteTask(task.list_id)}>
+                  Del
+                </ExcludeButton>
               </Task>
             ))}
           </Tasks>

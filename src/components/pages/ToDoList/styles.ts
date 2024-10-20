@@ -58,6 +58,7 @@ export const Tasks = styled.div`
 `;
 
 export const Task = styled.div`
+  position: relative;
   padding: 2rem 1rem;
   background-color: #727d92;
   border-radius: 1rem;
@@ -72,3 +73,10 @@ export const TaskText = styled.p`
   font-size: 1rem;
   color: ${(p) => p.theme.colors.white};
 `;
+
+export const ExcludeButton = styled.button`
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  transform: translate(-50%, -50%);
+`
