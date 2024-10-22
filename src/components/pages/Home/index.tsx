@@ -142,7 +142,7 @@ function Main() {
         }
       }
     } catch (error) {
-      // console.error('Erro no registro', error);
+      console.error('Erro no registro', error);
     } finally {
       setTimeout(() => {
         setLoading(false);
@@ -195,7 +195,7 @@ function Main() {
         navigate('/to-do-list');
       }
     } catch (error) {
-      // console.error('Erro no login', error);
+      console.error('Erro no login', error);
     } finally {
       setTimeout(() => {
         setLoading(false);

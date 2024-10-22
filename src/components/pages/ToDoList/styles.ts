@@ -59,7 +59,7 @@ export const AddTask = styled.button`
   transform: translate(-1rem, 75%);
 
   @media (min-width: ${small}px) {
-    transform: translate(-13rem, 50%);
+    transform: translate(-13rem, 75%);
   }
 `;
 
@@ -88,7 +88,7 @@ export const Task = styled.div`
   align-items: center;
 
   @media (min-width: ${small}px) {
-    padding: 2rem 1rem;
+    padding: 2rem 1rem 2rem 2.1rem;
   }
 `;
 
@@ -102,4 +102,28 @@ export const ExcludeButton = styled.button`
   right: 0;
   bottom: 0;
   transform: translate(-50%, -50%);
+`;
+
+export const ShowUpdateTask = styled.button`
+  position: absolute;
+  left: 0.5rem;
+`;
+
+export const UpdateContent = styled.div`
+  width: 100%;
+  position: relative;
+
+  input {
+    width: 100%;
+    height: 2rem;
+    border-radius: 1rem;
+    padding: 1rem;
+  }
+`;
+
+export const SaveButton = styled.button`
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(-30%, 40%);
 `;
