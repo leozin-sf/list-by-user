@@ -18,6 +18,9 @@ import {
   Task,
   TaskText,
   ExcludeButton,
+  ShowUpdateTask,
+  UpdateContent,
+  SaveButton,
 } from './styles';
 
 import { TaskTypes } from './types';
@@ -29,14 +32,14 @@ const getUserId = async () => {
       error,
     } = await supabase.auth.getUser();
     if (error) {
-      // console.log('Erro on getUser', error);
+      console.log('Erro on getUser', error);
       return null;
     }
     if (user) {
-      // console.log('ID do usuário', user.id);
+      console.log('ID do usuário', user.id);
       return user.id;
     } else {
-      // console.log('Usuário não autenticado');
+      console.log('Usuário não autenticado');
       return null;
     }
   } catch (error) {}
@@ -46,6 +49,10 @@ export function ToDoList() {
   const navigate = useNavigate();
   const [userName, setUserName] = useState<string>('');
   const [tasks, setTasks] = useState<TaskTypes[]>([]);
+  const [updateContent, setUpdateContent] = useState<{
+    [key: string]: boolean;
+  }>({});
+  const [editedText, setEditedText] = useState<{ [key: string]: string }>({});
   const newTaskText = useRef<HTMLInputElement>(null);
 
   const getTasks = async (userID: string) => {
@@ -56,7 +63,7 @@ export function ToDoList() {
       .order('created_at', { ascending: false });
 
     if (tasksError) {
-      // console.log(tasksError);
+      console.log(tasksError);
     } else {
       setTasks(tasksData);
     }
@@ -74,7 +81,7 @@ export function ToDoList() {
             .eq('user_id', userID)
             .single();
           if (userError) {
-            // console.log(userError);
+            console.log(userError);
             return;
           }
 
@@ -92,7 +99,7 @@ export function ToDoList() {
       const { error } = await supabase.auth.signOut();
 
       if (error) {
-        // console.log(error);
+        console.log(error);
       } else {
         navigate('/');
       }
@@ -113,7 +120,7 @@ export function ToDoList() {
       ]);
 
       if (error) {
-        // console.log('Erro em todolist, erro');
+        console.log('Erro em todolist, erro');
       } else {
         getTasks(userID);
         newTaskText.current.value = '';
@@ -146,6 +153,43 @@ export function ToDoList() {
     }
   };
 
+  const showUpdateTask = (taskID: string, currentText: string) => {
+    setUpdateContent((prevState) => ({
+      ...prevState,
+      [taskID]: !prevState[taskID],
+    }));
+
+    setEditedText((prevText) => ({
+      ...prevText,
+      [taskID]: currentText,
+    }));
+  };
+
+  const handleUpdateTask = async (taskID: string) => {
+    const userID = await getUserId();
+
+    if (!userID) {
+      console.log('Erro ao obter usuário');
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from('to_do_list')
+      .update({ text: editedText[taskID] })
+      .eq('list_id', taskID)
+      .eq('user_id', userID);
+
+    if (error) {
+      console.log('Erro ao atualizar tarefa', error);
+    } else {
+      getTasks(userID);
+      setUpdateContent((prevState) => ({
+        ...prevState,
+        [taskID]: false,
+      }));
+    }
+  };
+
   return (
     <Content>
       <Container>
@@ -173,10 +217,36 @@ export function ToDoList() {
           <Tasks>
             {tasks.map((task) => (
               <Task key={task.list_id}>
-                <TaskText>{task.text}</TaskText>
-                <ExcludeButton onClick={() => deleteTask(task.list_id)}>
-                  Del
-                </ExcludeButton>
+                {!updateContent[task.list_id] && (
+                  <>
+                    <TaskText>{task.text}</TaskText>
+                    <ExcludeButton onClick={() => deleteTask(task.list_id)}>
+                      Del
+                    </ExcludeButton>
+                    <ShowUpdateTask
+                      onClick={() => showUpdateTask(task.list_id, task.text)}
+                    >
+                      Edit
+                    </ShowUpdateTask>
+                  </>
+                )}
+                {updateContent[task.list_id] && (
+                  <UpdateContent>
+                    <input
+                      type="text"
+                      value={editedText[task.list_id]}
+                      onChange={(e) =>
+                        setEditedText((prev) => ({
+                          ...prev,
+                          [task.list_id]: e.target.value,
+                        }))
+                      }
+                    />
+                    <SaveButton onClick={() => handleUpdateTask(task.list_id)}>
+                      Salvar
+                    </SaveButton>
+                  </UpdateContent>
+                )}
               </Task>
             ))}
           </Tasks>
