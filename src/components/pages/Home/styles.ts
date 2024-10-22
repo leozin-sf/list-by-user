@@ -1,9 +1,12 @@
 import styled from '@emotion/styled';
-import { keyframes, css } from '@emotion/react';
+import { css } from '@emotion/react';
+import { ShowTypes } from './types';
 
-export const LoginContainer = styled.div`
+const small = (p: any) => p.theme.breakpoints.small;
+
+export const LoginContainer = styled.div<ShowTypes>`
   background: ${(p) => p.theme.colors.loginPage.loginGradient};
-  min-height: 16rem;
+  min-height: 24rem;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -12,7 +15,7 @@ export const LoginContainer = styled.div`
   justify-content: space-evenly;
   flex-direction: column;
   gap: 1rem;
-  padding: 2rem;
+  padding: 2rem 3rem;
   border-radius: 1rem;
 
   input {
@@ -30,6 +33,17 @@ export const LoginContainer = styled.div`
 
   .erroNome {
     outline: 0.125rem solid ${(p) => p.theme.colors.loginPage.error};
+  }
+
+  ${({ showResetPassword }) =>
+    showResetPassword &&
+    css`
+      min-height: 16rem;
+    `}
+
+  @media (min-width: ${small}px) {
+    min-height: 16rem;
+    padding: 3rem 4rem;
   }
 `;
 
@@ -116,8 +130,6 @@ export const ErrorMessage = styled.p`
   margin: 0;
 `;
 
-export const RegisterContent = styled.div``;
-
 export const LoginText = styled.p`
   color: ${(p) => p.theme.colors.white};
   margin: 0;
@@ -133,10 +145,22 @@ export const LoginText = styled.p`
   }
 `;
 
+export const RegisterContent = styled.div`
+  ${LoginText} {
+    &:nth-of-type(1) {
+      font-size: 0.875rem;
+
+      @media (min-width: ${small}px) {
+        font-size: 1rem;
+      }
+    }
+  }
+`;
+
 export const PasswordLogin = styled(Password)`
   & > :nth-child(3) {
     padding-top: 0.5rem;
-    font-size: 0.5625rem;
+    font-size: 0.625rem;
     a {
       text-decoration: underline;
       cursor: pointer;

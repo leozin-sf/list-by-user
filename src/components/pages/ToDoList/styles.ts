@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+const small = (p: any) => p.theme.breakpoints.small;
+
 export const Content = styled.div``;
 
 export const Menu = styled.div`
@@ -33,13 +35,20 @@ export const ListContent = styled.div`
 
 export const NewTaskDiv = styled.div`
   position: relative;
-  padding: 0 12rem;
 
   input {
     width: 100%;
     height: 3rem;
     border-radius: 1rem;
-    padding: 1rem 6rem 1rem 1rem;
+    padding: 1rem 4.8rem 1rem 1rem;
+  }
+
+  @media (min-width: ${small}px) {
+    padding: 0 12rem;
+
+    input {
+      padding: 1rem 6rem 1rem 1rem;
+    }
   }
 `;
 
@@ -47,19 +56,29 @@ export const AddTask = styled.button`
   position: absolute;
   top: 0;
   right: 0;
-  transform: translate(-13rem, 75%);
+  transform: translate(-1rem, 75%);
+
+  @media (min-width: ${small}px) {
+    transform: translate(-13rem, 50%);
+  }
 `;
 
 export const Tasks = styled.div`
-  padding-top: 2rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem 1rem;
+  padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  @media (min-width: ${small}px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem 1rem;
+  }
 `;
 
 export const Task = styled.div`
   position: relative;
-  padding: 2rem 1rem;
+  padding: 1rem 2.5rem;
   background-color: #727d92;
   border-radius: 1rem;
   min-height: 4rem;
@@ -67,6 +86,10 @@ export const Task = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media (min-width: ${small}px) {
+    padding: 2rem 1rem;
+  }
 `;
 
 export const TaskText = styled.p`
