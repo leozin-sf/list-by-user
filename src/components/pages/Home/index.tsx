@@ -259,7 +259,7 @@ function Main() {
 
   return (
     <Container>
-      <LoginContainer>
+      <LoginContainer showResetPassword={showResetPassword}>
         {showLogin && (
           <>
             <User>

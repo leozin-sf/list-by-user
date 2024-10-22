@@ -4,8 +4,13 @@ import { useNavigate } from 'react-router-dom';
 
 import Container from '../../layout/Container';
 import { Loading } from '../../common/DotLoading';
-import { LoginContainer, User, ErrorMessage } from '../Home/styles';
-import { Content, UserReset, RecoveryButton } from './styles';
+import { ErrorMessage } from '../Home/styles';
+import {
+  Content,
+  RecoveryContainer,
+  UserReset,
+  RecoveryButton,
+} from './styles';
 import PasswordInput from '../../common/Password';
 
 export function PasswordRecovery() {
@@ -58,7 +63,7 @@ export function PasswordRecovery() {
   return (
     <Content>
       <Container>
-        <LoginContainer>
+        <RecoveryContainer>
           <UserReset>
             <PasswordInput
               placeholder="Digite sua nova senha"
@@ -79,7 +84,7 @@ export function PasswordRecovery() {
           {error && (
             <ErrorMessage style={{ color: 'red' }}>{error}</ErrorMessage>
           )}
-        </LoginContainer>
+        </RecoveryContainer>
       </Container>
     </Content>
   );
