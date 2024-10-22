@@ -24,6 +24,7 @@ import {
 } from './styles';
 
 import { TaskTypes } from './types';
+import { timeStamp } from 'console';
 
 const getUserId = async () => {
   try {
@@ -54,6 +55,8 @@ export function ToDoList() {
   }>({});
   const [editedText, setEditedText] = useState<{ [key: string]: string }>({});
   const newTaskText = useRef<HTMLInputElement>(null);
+  const updatedTaskText = useRef<HTMLInputElement>(null);
+  const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
 
   const getTasks = async (userID: string) => {
     const { data: tasksData, error: tasksError } = await supabase
@@ -163,21 +166,38 @@ export function ToDoList() {
       ...prevText,
       [taskID]: currentText,
     }));
+
+    setEditingTaskId(taskID);
   };
 
   const handleUpdateTask = async (taskID: string) => {
     const userID = await getUserId();
 
-    if (!userID) {
-      console.log('Erro ao obter usuário');
+    if (!userID || !updatedTaskText.current) {
+      console.log('Erro ao obter usuário ou input');
       return;
     }
 
+    const updatedText = updatedTaskText.current.value.trim();
+    const task = tasks.find((t) => t.list_id === taskID);
+    if (!task || task.text === updatedText) {
+      console.log('Nenhuma alteração no texto');
+      setUpdateContent((prevState) => ({
+        ...prevState,
+        [taskID]: !prevState[taskID],
+      }));
+      setEditingTaskId(null);
+      return;
+    }
+
+    const timeStamp = new Date().toISOString();
+
     const { data, error } = await supabase
       .from('to_do_list')
-      .update({ text: editedText[taskID] })
+      .update({ text: updatedText, created_at: timeStamp })
+      .eq('user_id', userID)
       .eq('list_id', taskID)
-      .eq('user_id', userID);
+      .single();
 
     if (error) {
       console.log('Erro ao atualizar tarefa', error);
@@ -188,6 +208,7 @@ export function ToDoList() {
         [taskID]: false,
       }));
     }
+    setEditingTaskId(null);
   };
 
   return (
@@ -220,11 +241,19 @@ export function ToDoList() {
                 {!updateContent[task.list_id] && (
                   <>
                     <TaskText>{task.text}</TaskText>
-                    <ExcludeButton onClick={() => deleteTask(task.list_id)}>
+                    <ExcludeButton
+                      onClick={() => deleteTask(task.list_id)}
+                      disabled={
+                        editingTaskId !== null && editingTaskId !== task.list_id
+                      }
+                    >
                       Del
                     </ExcludeButton>
                     <ShowUpdateTask
                       onClick={() => showUpdateTask(task.list_id, task.text)}
+                      disabled={
+                        editingTaskId !== null && editingTaskId !== task.list_id
+                      }
                     >
                       Edit
                     </ShowUpdateTask>
@@ -234,7 +263,8 @@ export function ToDoList() {
                   <UpdateContent>
                     <input
                       type="text"
-                      value={editedText[task.list_id]}
+                      defaultValue={task.text}
+                      ref={updatedTaskText}
                       onChange={(e) =>
                         setEditedText((prev) => ({
                           ...prev,
