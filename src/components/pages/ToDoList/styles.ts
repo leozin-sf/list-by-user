@@ -79,4 +79,4 @@ export const ExcludeButton = styled.button`
   right: 0;
   bottom: 0;
   transform: translate(-50%, -50%);
-`
+`;
