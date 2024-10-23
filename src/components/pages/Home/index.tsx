@@ -36,6 +36,7 @@ function Main() {
   const [showRegister, setShowRegister] = useState<boolean>(false);
   const [showResetPassword, setShowResetPassword] = useState<boolean>(false);
   const [nameError, setNameError] = useState<boolean>(false);
+  const [lastNameError, setLastNameError] = useState<boolean>(false);
   const [emailError, setEmailError] = useState<boolean>(false);
   const [passwordError, setPasswordError] = useState<boolean>(false);
   const [showWarning, setShowWarning] = useState<boolean>(false);
@@ -55,6 +56,8 @@ function Main() {
     setShowLogin(true);
     setShowWarning(false);
     setEmailError(false);
+    setNameError(false);
+    setLastNameError(false);
     setPasswordError(false);
   };
 
@@ -86,6 +89,13 @@ function Main() {
       hasError = true;
     } else {
       setNameError(false);
+    }
+
+    if (!lastName || lastName.trim() === '') {
+      setLastNameError(true);
+      hasError = true;
+    } else {
+      setLastNameError(false);
     }
 
     if (!email || email.trim() === '') {
@@ -319,9 +329,9 @@ function Main() {
                 ref={registerLastNameRef}
                 type="text"
                 placeholder={
-                  nameError ? 'Informe seu sobrenome!' : 'Seu Sobrenome'
+                  lastNameError ? 'Informe seu sobrenome!' : 'Seu Sobrenome'
                 }
-                className={nameError ? 'erroNome' : ''}
+                className={lastNameError ? 'erroNome' : ''}
               />
             </User>
             <User>
