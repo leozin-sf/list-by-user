@@ -102,11 +102,19 @@ export const ExcludeButton = styled.button`
   right: 0;
   bottom: 0;
   transform: translate(-50%, -50%);
+
+  :disabled {
+    visibility: hidden;
+  }
 `;
 
 export const ShowUpdateTask = styled.button`
   position: absolute;
   left: 0.5rem;
+
+  :disabled {
+    visibility: hidden;
+  }
 `;
 
 export const UpdateContent = styled.div`
