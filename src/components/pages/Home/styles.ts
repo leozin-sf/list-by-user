@@ -19,11 +19,12 @@ export const LoginContainer = styled.div<ShowTypes>`
   border-radius: 1rem;
 
   input {
-    height: 1.4rem;
+    height: 100%;
     width: -webkit-fill-available;
-    padding: 0 0.5rem;
+    padding: 0.5rem 0.5rem;
     border-radius: 0.5rem;
     border: none;
+    font-size: 1rem;
 
     :focus {
       outline: 0.125rem solid ${(p) => p.theme.colors.loginPage.inputBorder};
@@ -44,6 +45,12 @@ export const LoginContainer = styled.div<ShowTypes>`
   @media (min-width: ${small}px) {
     min-height: 16rem;
     padding: 3rem 4rem;
+
+    input {
+      height: 1.4rem;
+      font-size: 0.875rem;
+      padding: 0 0.5rem;
+    }
   }
 `;
 
