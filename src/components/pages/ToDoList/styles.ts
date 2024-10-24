@@ -36,7 +36,7 @@ export const ListContent = styled.div`
 export const NewTaskDiv = styled.div`
   position: absolute;
   width: calc(100% - 2rem);
-  height: 100%;
+  height: -webkit-fill-available;
 
   input {
     font-size: 1rem;

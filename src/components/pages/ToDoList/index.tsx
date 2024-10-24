@@ -2,7 +2,9 @@ import { FormEvent, useEffect, useState, useRef } from 'react';
 import { supabase } from '../../auth/SupaBaseClient';
 import { useNavigate } from 'react-router-dom';
 
+import { useIsMobile } from '../../../hooks/useMobile';
 import Container from '../../layout/Container';
+import { Pagination } from './Pagination/index';
 
 import {
   Content,
@@ -47,6 +49,7 @@ const getUserId = async () => {
 };
 
 export function ToDoList() {
+  const isMobile = useIsMobile();
   const navigate = useNavigate();
   const [userName, setUserName] = useState<string>('');
   const [tasks, setTasks] = useState<TaskTypes[]>([]);
@@ -57,6 +60,13 @@ export function ToDoList() {
   const newTaskText = useRef<HTMLInputElement>(null);
   const updatedTaskText = useRef<HTMLInputElement>(null);
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const tasksPerPage = 8;
+  const indexOfLastTask = currentPage * tasksPerPage;
+  const indexOfFirstTask = indexOfLastTask - tasksPerPage;
+  const currentTasks = isMobile
+    ? tasks
+    : tasks.slice(indexOfFirstTask, indexOfLastTask);
 
   const getTasks = async (userID: string) => {
     const { data: tasksData, error: tasksError } = await supabase
@@ -238,7 +248,7 @@ export function ToDoList() {
             </AddTaskSticky>
           </NewTaskDiv>
           <Tasks>
-            {tasks.map((task) => (
+            {currentTasks.map((task) => (
               <Task key={task.list_id}>
                 {!updateContent[task.list_id] && (
                   <>
@@ -282,6 +292,14 @@ export function ToDoList() {
               </Task>
             ))}
           </Tasks>
+          {!isMobile && (
+            <Pagination
+              tasksPerPage={tasksPerPage}
+              totalTasks={tasks.length}
+              paginate={setCurrentPage}
+              currentPage={currentPage}
+            />
+          )}
         </ListContent>
       </Container>
     </Content>
