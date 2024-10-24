@@ -40,6 +40,7 @@ function Main() {
   const [emailError, setEmailError] = useState<boolean>(false);
   const [passwordError, setPasswordError] = useState<boolean>(false);
   const [showWarning, setShowWarning] = useState<boolean>(false);
+  const [passwordWarning, setPasswordWarning] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -132,6 +133,15 @@ function Main() {
           setTimeout(() => {
             setShowWarning(false);
           }, 10000);
+        } else if (
+          error.message === 'Password should be at least 6 characters.'
+        ) {
+          setPasswordWarning(true);
+          setTimeout(() => {
+            setPasswordWarning(false);
+          }, 10000);
+        } else {
+          console.log(error.message);
         }
       } else if (data.user) {
         const { error } = await supabase.from('users').insert([
@@ -366,6 +376,13 @@ function Main() {
             {showWarning && (
               <Error>
                 <ErrorMessage>E-mail já cadastrado!</ErrorMessage>
+              </Error>
+            )}
+            {passwordWarning && (
+              <Error>
+                <ErrorMessage>
+                  Senha deve conter pelo menos 6 caracteres!
+                </ErrorMessage>
               </Error>
             )}
           </>
