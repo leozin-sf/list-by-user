@@ -21,7 +21,7 @@ export const Pagination = ({
           <Page
             onClick={() => paginate(number)}
             key={number}
-            className={currentPage === number ? 'currentPage' : ''}
+            isActive={currentPage === number}
           >
             <p>{number}</p>
           </Page>

@@ -13,7 +13,7 @@ export const Pages = styled.div`
   padding: 0;
 `;
 
-export const Page = styled.div`
+export const Page = styled.div<{ isActive: boolean }>`
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -21,10 +21,8 @@ export const Page = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  background-color: ${(props) =>
-    props.className === 'currentPage' ? '#007BFF' : '#FFFFFF'};
-  color: ${(props) =>
-    props.className === 'currentPage' ? '#FFFFFF' : '#007BFF'};
+  background-color: ${(p) => (p.isActive ? '#007BFF' : '#FFFFFF')};
+  color: ${(p) => (p.isActive ? '#FFFFFF' : '#007BFF')};
   border: 1px solid #007bff;
   transition:
     background-color 0.3s,
