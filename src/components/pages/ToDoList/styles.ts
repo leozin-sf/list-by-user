@@ -34,9 +34,12 @@ export const ListContent = styled.div`
 `;
 
 export const NewTaskDiv = styled.div`
-  position: relative;
+  position: absolute;
+  width: calc(100% - 2rem);
+  height: 100%;
 
   input {
+    font-size: 1rem;
     width: 100%;
     height: 3rem;
     border-radius: 1rem;
@@ -45,6 +48,9 @@ export const NewTaskDiv = styled.div`
 
   @media (min-width: ${small}px) {
     padding: 0 12rem;
+    position: relative;
+    width: unset;
+    height: unset;
 
     input {
       padding: 1rem 6rem 1rem 1rem;
@@ -63,13 +69,26 @@ export const AddTask = styled.button`
   }
 `;
 
+export const AddTaskSticky = styled.div`
+  position: sticky;
+  top: 1rem;
+  z-index: 100;
+
+  @media (min-width: ${small}px) {
+    position: unset;
+    top: unset;
+    z-index: unset;
+  }
+`;
+
 export const Tasks = styled.div`
-  padding: 2rem 0;
+  padding: 4rem 0;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 
   @media (min-width: ${small}px) {
+    padding: 2rem 0;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1.5rem 1rem;

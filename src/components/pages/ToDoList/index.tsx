@@ -13,6 +13,7 @@ import {
   UserNameText,
   ListContent,
   NewTaskDiv,
+  AddTaskSticky,
   AddTask,
   Tasks,
   Task,
@@ -24,7 +25,6 @@ import {
 } from './styles';
 
 import { TaskTypes } from './types';
-import { timeStamp } from 'console';
 
 const getUserId = async () => {
   try {
@@ -223,17 +223,19 @@ export function ToDoList() {
         </Menu>
         <ListContent>
           <NewTaskDiv>
-            <input
-              type="textarea"
-              placeholder="Adicionar tarefa"
-              ref={newTaskText}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  handleAddTask(e);
-                }
-              }}
-            />
-            <AddTask onClick={handleAddTask}>Adicionar</AddTask>
+            <AddTaskSticky>
+              <input
+                type="textarea"
+                placeholder="Adicionar tarefa"
+                ref={newTaskText}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleAddTask(e);
+                  }
+                }}
+              />
+              <AddTask onClick={handleAddTask}>Adicionar</AddTask>
+            </AddTaskSticky>
           </NewTaskDiv>
           <Tasks>
             {tasks.map((task) => (
