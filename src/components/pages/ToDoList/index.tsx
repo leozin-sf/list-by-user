@@ -322,7 +322,12 @@ export function ToDoList() {
                     >
                       Del
                     </ExcludeButton>
-                    <MarkTaskAsDone onClick={() => toggleTask(task.list_id)}>
+                    <MarkTaskAsDone
+                      onClick={() => toggleTask(task.list_id)}
+                      disabled={
+                        editingTaskId !== null && editingTaskId !== task.list_id
+                      }
+                    >
                       {task.task_confirmed ? 'Undone' : 'Done'}
                     </MarkTaskAsDone>
 
