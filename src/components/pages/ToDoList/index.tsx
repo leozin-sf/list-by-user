@@ -72,7 +72,7 @@ export function ToDoList() {
   const indexOfLastTask = currentPage * tasksPerPage;
   const indexOfFirstTask = indexOfLastTask - tasksPerPage;
   const currentTasks = isMobile
-    ? tasks
+    ? filteredTasks
     : filteredTasks.slice(indexOfFirstTask, indexOfLastTask);
 
   const getTasks = async (userID: string) => {

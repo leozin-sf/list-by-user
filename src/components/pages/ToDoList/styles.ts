@@ -148,6 +148,7 @@ export const MarkTaskAsDone = styled.button`
 `;
 
 export const ShowByFilter = styled.div`
+  position: relative;
   padding-top: 4.5rem;
   display: flex;
   justify-content: center;
