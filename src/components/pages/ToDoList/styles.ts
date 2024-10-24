@@ -2,7 +2,14 @@ import styled from '@emotion/styled';
 
 const small = (p: any) => p.theme.breakpoints.small;
 
-export const Content = styled.div``;
+export const Content = styled.div`
+  input {
+    border: none;
+    :focus {
+      outline: 0.125rem solid ${(p) => p.theme.colors.loginPage.inputBorder};
+    }
+  }
+`;
 
 export const Menu = styled.div`
   height: 3.625rem;
@@ -82,13 +89,13 @@ export const AddTaskSticky = styled.div`
 `;
 
 export const Tasks = styled.div`
-  padding: 4rem 0;
+  padding: 1rem 0 4rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 
   @media (min-width: ${small}px) {
-    padding: 2rem 0;
+    padding: 1rem 0 2rem;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1.5rem 1rem;
@@ -117,6 +124,7 @@ export const TaskText = styled.p`
 `;
 
 export const ExcludeButton = styled.button`
+  cursor: pointer;
   position: absolute;
   right: 0;
   bottom: 0;
@@ -127,7 +135,44 @@ export const ExcludeButton = styled.button`
   }
 `;
 
+export const MarkTaskAsDone = styled.button`
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(-20%, 50%);
+`;
+
+export const ShowByFilter = styled.div`
+  padding-top: 4.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+
+  @media (min-width: ${small}px) {
+    padding-top: 1rem;
+    gap: 4rem;
+  }
+`;
+
+export const FilterSelect = styled.button<{ isActive: boolean }>`
+  cursor: pointer;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+
+  background-color: ${({ isActive }) => (isActive ? '#007BFF' : '#ffffff')};
+  color: ${({ isActive }) => (isActive ? '#ffffff' : '#000000')};
+
+  &:hover {
+    background-color: #0056b3;
+    color: #ffffff;
+  }
+`;
+
 export const ShowUpdateTask = styled.button`
+  cursor: pointer;
   position: absolute;
   left: 0.5rem;
 
