@@ -68,7 +68,6 @@ export function ToDoList() {
   const filteredTasks = tasks.filter(
     (task) => task.task_confirmed === showCompleted
   );
-  console.log(filteredTasks);
   const tasksPerPage = 10;
   const indexOfLastTask = currentPage * tasksPerPage;
   const indexOfFirstTask = indexOfLastTask - tasksPerPage;
@@ -322,7 +321,12 @@ export function ToDoList() {
                     >
                       Del
                     </ExcludeButton>
-                    <MarkTaskAsDone onClick={() => toggleTask(task.list_id)}>
+                    <MarkTaskAsDone
+                      onClick={() => toggleTask(task.list_id)}
+                      disabled={
+                        editingTaskId !== null && editingTaskId !== task.list_id
+                      }
+                    >
                       {task.task_confirmed ? 'Undone' : 'Done'}
                     </MarkTaskAsDone>
 
@@ -348,6 +352,11 @@ export function ToDoList() {
                           [task.list_id]: e.target.value,
                         }))
                       }
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          handleUpdateTask(task.list_id);
+                        }
+                      }}
                     />
                     <SaveButton onClick={() => handleUpdateTask(task.list_id)}>
                       Salvar

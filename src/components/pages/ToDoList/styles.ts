@@ -141,6 +141,10 @@ export const MarkTaskAsDone = styled.button`
   top: 0;
   right: 0;
   transform: translate(-20%, 50%);
+
+  :disabled {
+    visibility: hidden;
+  }
 `;
 
 export const ShowByFilter = styled.div`
