@@ -62,8 +62,12 @@ export const Text = styled.h3`
   margin: 0;
   text-align: center;
   padding-bottom: 0.8rem;
-  font-size: 1.375rem;
+  font-size: 1.5rem;
   color: ${(p) => p.theme.colors.white};
+
+  @media (min-width: ${small}px) {
+    font-size: 1.375rem;
+  }
 `;
 
 export const LoginButton = styled.button<{ loading: boolean }>`
