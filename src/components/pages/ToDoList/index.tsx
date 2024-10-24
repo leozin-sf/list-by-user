@@ -21,6 +21,9 @@ import {
   Task,
   TaskText,
   ExcludeButton,
+  MarkTaskAsDone,
+  ShowByFilter,
+  FilterSelect,
   ShowUpdateTask,
   UpdateContent,
   SaveButton,
@@ -61,12 +64,17 @@ export function ToDoList() {
   const updatedTaskText = useRef<HTMLInputElement>(null);
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const tasksPerPage = 8;
+  const [showCompleted, setShowCompleted] = useState<boolean>(false);
+  const filteredTasks = tasks.filter(
+    (task) => task.task_confirmed === showCompleted
+  );
+  console.log(filteredTasks);
+  const tasksPerPage = 10;
   const indexOfLastTask = currentPage * tasksPerPage;
   const indexOfFirstTask = indexOfLastTask - tasksPerPage;
   const currentTasks = isMobile
     ? tasks
-    : tasks.slice(indexOfFirstTask, indexOfLastTask);
+    : filteredTasks.slice(indexOfFirstTask, indexOfLastTask);
 
   const getTasks = async (userID: string) => {
     const { data: tasksData, error: tasksError } = await supabase
@@ -166,6 +174,45 @@ export function ToDoList() {
     }
   };
 
+  const toggleTask = async (taskID: string) => {
+    const userID = await getUserId();
+
+    if (!userID) {
+      console.log('Usuário não autenticado ou erro ao obter ID do usuário.');
+      return;
+    }
+
+    try {
+      const { data: tasks, error: tasksError } = await supabase
+        .from('to_do_list')
+        .select('task_confirmed')
+        .eq('list_id', taskID)
+        .eq('user_id', userID)
+        .single();
+
+      if (!tasks || tasksError) {
+        console.log('Erro ao marcar tarefa como concluída', tasksError);
+      }
+
+      const taskConfirmedState: boolean = !tasks?.task_confirmed;
+
+      const { data, error } = await supabase
+        .from('to_do_list')
+        .update({ task_confirmed: taskConfirmedState })
+        .eq('list_id', taskID)
+        .eq('user_id', userID)
+        .single();
+
+      if (error) {
+        console.log('Erro ao atualizar tarefa', error);
+      } else {
+        getTasks(userID);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const showUpdateTask = (taskID: string, currentText: string) => {
     setUpdateContent((prevState) => ({
       ...prevState,
@@ -247,6 +294,20 @@ export function ToDoList() {
               <AddTask onClick={handleAddTask}>Adicionar</AddTask>
             </AddTaskSticky>
           </NewTaskDiv>
+          <ShowByFilter>
+            <FilterSelect
+              onClick={() => setShowCompleted(false)}
+              isActive={!showCompleted}
+            >
+              Pendentes
+            </FilterSelect>
+            <FilterSelect
+              onClick={() => setShowCompleted(true)}
+              isActive={showCompleted}
+            >
+              Concluídas
+            </FilterSelect>
+          </ShowByFilter>
           <Tasks>
             {currentTasks.map((task) => (
               <Task key={task.list_id}>
@@ -261,6 +322,10 @@ export function ToDoList() {
                     >
                       Del
                     </ExcludeButton>
+                    <MarkTaskAsDone onClick={() => toggleTask(task.list_id)}>
+                      {task.task_confirmed ? 'Undone' : 'Done'}
+                    </MarkTaskAsDone>
+
                     <ShowUpdateTask
                       onClick={() => showUpdateTask(task.list_id, task.text)}
                       disabled={
@@ -295,7 +360,7 @@ export function ToDoList() {
           {!isMobile && (
             <Pagination
               tasksPerPage={tasksPerPage}
-              totalTasks={tasks.length}
+              totalTasks={filteredTasks.length}
               paginate={setCurrentPage}
               currentPage={currentPage}
             />
