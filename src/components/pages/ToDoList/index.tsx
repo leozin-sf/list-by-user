@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useIsMobile } from '../../../hooks/useMobile';
 import Container from '../../layout/Container';
+import { Button } from '../../common/Button';
 import { Pagination } from './Pagination/index';
 
 import {
@@ -20,11 +21,8 @@ import {
   Tasks,
   Task,
   TaskText,
-  ExcludeButton,
-  MarkTaskAsDone,
   ShowByFilter,
   FilterSelect,
-  ShowUpdateTask,
   UpdateContent,
   SaveButton,
 } from './styles';
@@ -313,31 +311,28 @@ export function ToDoList() {
                 {!updateContent[task.list_id] && (
                   <>
                     <TaskText>{task.text}</TaskText>
-                    <ExcludeButton
+                    <Button
+                      buttonType="excludeTask"
                       onClick={() => deleteTask(task.list_id)}
                       disabled={
                         editingTaskId !== null && editingTaskId !== task.list_id
                       }
-                    >
-                      Del
-                    </ExcludeButton>
-                    <MarkTaskAsDone
+                    />
+                    <Button
+                      buttonType="markTask"
                       onClick={() => toggleTask(task.list_id)}
                       disabled={
                         editingTaskId !== null && editingTaskId !== task.list_id
                       }
-                    >
-                      {task.task_confirmed ? 'Undone' : 'Done'}
-                    </MarkTaskAsDone>
+                    />
 
-                    <ShowUpdateTask
+                    <Button
+                      buttonType="editTask"
                       onClick={() => showUpdateTask(task.list_id, task.text)}
                       disabled={
                         editingTaskId !== null && editingTaskId !== task.list_id
                       }
-                    >
-                      Edit
-                    </ShowUpdateTask>
+                    />
                   </>
                 )}
                 {updateContent[task.list_id] && (

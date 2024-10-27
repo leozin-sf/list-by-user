@@ -123,30 +123,6 @@ export const TaskText = styled.p`
   color: ${(p) => p.theme.colors.white};
 `;
 
-export const ExcludeButton = styled.button`
-  cursor: pointer;
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  transform: translate(-50%, -50%);
-
-  :disabled {
-    visibility: hidden;
-  }
-`;
-
-export const MarkTaskAsDone = styled.button`
-  cursor: pointer;
-  position: absolute;
-  top: 0;
-  right: 0;
-  transform: translate(-20%, 50%);
-
-  :disabled {
-    visibility: hidden;
-  }
-`;
-
 export const ShowByFilter = styled.div`
   position: relative;
   padding-top: 4.5rem;
@@ -173,16 +149,6 @@ export const FilterSelect = styled.button<{ isActive: boolean }>`
   &:hover {
     background-color: #0056b3;
     color: #ffffff;
-  }
-`;
-
-export const ShowUpdateTask = styled.button`
-  cursor: pointer;
-  position: absolute;
-  left: 0.5rem;
-
-  :disabled {
-    visibility: hidden;
   }
 `;
 
