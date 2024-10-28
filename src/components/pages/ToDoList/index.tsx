@@ -124,26 +124,34 @@ export function ToDoList() {
     } catch (error) {}
   };
 
+  const [addingTask, setAddingTask] = useState<boolean>(false);
+
   const handleAddTask = async (e: FormEvent) => {
     e.preventDefault();
-    const userID = await getUserId();
+    setAddingTask(true);
 
-    if (userID && newTaskText.current?.value) {
-      const { data, error } = await supabase.from('to_do_list').insert([
-        {
-          text: newTaskText.current.value,
-          task_confirmed: false,
-          user_id: userID,
-        },
-      ]);
+    setTimeout(async () => {
+      setAddingTask(false);
 
-      if (error) {
-        console.log('Erro em todolist, erro');
-      } else {
-        getTasks(userID);
-        newTaskText.current.value = '';
+      const userID = await getUserId();
+
+      if (userID && newTaskText.current?.value) {
+        const { data, error } = await supabase.from('to_do_list').insert([
+          {
+            text: newTaskText.current.value,
+            task_confirmed: false,
+            user_id: userID,
+          },
+        ]);
+
+        if (error) {
+          console.log('Erro em todolist, erro');
+        } else {
+          getTasks(userID);
+          newTaskText.current.value = '';
+        }
       }
-    }
+    }, 500);
   };
 
   const deleteTask = async (taskID: string) => {
@@ -288,7 +296,7 @@ export function ToDoList() {
                   }
                 }}
               />
-              <AddTask onClick={handleAddTask}>Adicionar</AddTask>
+              <AddTask onClick={handleAddTask} addingTask={addingTask} />
             </AddTaskSticky>
           </NewTaskDiv>
           <ShowByFilter>
@@ -324,8 +332,8 @@ export function ToDoList() {
                       disabled={
                         editingTaskId !== null && editingTaskId !== task.list_id
                       }
+                      task_confirmed={task.task_confirmed}
                     />
-
                     <Button
                       buttonType="editTask"
                       onClick={() => showUpdateTask(task.list_id, task.text)}

@@ -1,6 +1,12 @@
 import styled from '@emotion/styled';
+import { keyframes, css } from '@emotion/react';
 
 const small = (p: any) => p.theme.breakpoints.small;
+
+const rotate = keyframes`
+  0% {transform: rotate(0deg)}
+  100%{transform: rotate(360deg)}
+`;
 
 export const Content = styled.div`
   input {
@@ -43,7 +49,7 @@ export const ListContent = styled.div`
 export const NewTaskDiv = styled.div`
   position: absolute;
   width: calc(100% - 2rem);
-  height: -webkit-fill-available;
+  height: 100%;
 
   input {
     font-size: 1rem;
@@ -65,14 +71,36 @@ export const NewTaskDiv = styled.div`
   }
 `;
 
-export const AddTask = styled.button`
+export const AddTask = styled.button<{ addingTask: boolean }>`
   position: absolute;
   top: 0;
   right: 0;
-  transform: translate(-1rem, 75%);
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: #007bff;
+  border: none;
+  border-radius: 0.5rem;
+  transform-origin: center;
+
+  ${({ addingTask }) =>
+    addingTask &&
+    css`
+      animation: ${rotate} 0.5s ease-in-out;
+    `}
+
+  &::after {
+    content: url('/assets/add-l.svg');
+    display: inline-block;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: #0056b3;
+  }
 
   @media (min-width: ${small}px) {
-    transform: translate(-13rem, 75%);
+    right: 13rem;
+    top: 0.75rem;
   }
 `;
 
