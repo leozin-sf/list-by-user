@@ -302,7 +302,7 @@ export function ToDoList() {
             <WellcomeText>Olá,</WellcomeText>{' '}
             <UserNameText>{userName}</UserNameText>
           </Wellcome>
-          <LogoutButton onClick={signOutApp}>Logout</LogoutButton>
+          <LogoutButton onClick={signOutApp}>Sair</LogoutButton>
         </Menu>
         <ListContent>
           <NewTaskDiv>

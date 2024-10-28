@@ -25,7 +25,18 @@ export const Menu = styled.div`
 `;
 
 export const LogoutButton = styled.button`
+  cursor: pointer;
   height: 2rem;
+  border: none;
+  background: none;
+  color: ${(p) => p.theme.colors.white};
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  &::after {
+    content: url('assets/logout.svg');
+  }
 `;
 
 export const Wellcome = styled.div``;
