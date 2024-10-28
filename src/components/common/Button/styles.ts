@@ -93,8 +93,8 @@ export const DoneBg = styled.div<{
       & ${MarkTaskButton}::after {
         content: ${(p) =>
           p.task_confirmed
-            ? `url('/assets/check-d.svg')`
-            : `url('/assets/check-l.svg')`};
+            ? `url(/assets/check-d.svg)`
+            : `url(/assets/check-l.svg)`};
       }
     }
   }
@@ -106,14 +106,14 @@ export const ExcludeButton = styled(BaseButton)`
   transform: translate(-55%, -30%);
 
   &::after {
-    content: url('/assets/trash-mobile.svg');
+    content: url(/assets/trash-mobile.svg);
   }
 
   @media (min-width: ${small}px) {
     transform: translate(-46%, -25%);
 
     &::after {
-      content: url('/assets/trash.svg');
+      content: url(/assets/trash.svg);
     }
   }
 `;
@@ -122,12 +122,12 @@ export const EditTask = styled(BaseButton)`
   left: 0.5rem;
 
   &::after {
-    content: url('/assets/edit-mobile.svg');
+    content: url(/assets/edit-mobile.svg);
   }
 
   @media (min-width: ${small}px) {
     &::after {
-      content: url('/assets/edit.svg');
+      content: url(/assets/edit.svg);
     }
   }
 `;

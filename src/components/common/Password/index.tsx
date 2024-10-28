@@ -1,5 +1,5 @@
 import React, { useState, forwardRef } from 'react';
-import { PasswordContent } from './styles';
+import { PasswordContent, ButtonShowHide } from './styles';
 import { PasswordTypes } from './types';
 
 const PasswordInput = forwardRef<HTMLInputElement, PasswordTypes>(
@@ -20,9 +20,11 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordTypes>(
           }}
           {...props}
         />
-        <button type="button" onClick={() => setShowPassword(!showPassword)}>
-          {showPassword ? 'Hide' : 'Show'}
-        </button>
+        <ButtonShowHide
+          type="button"
+          onClick={() => setShowPassword(!showPassword)}
+          isActive={showPassword}
+        />
       </PasswordContent>
     );
   }

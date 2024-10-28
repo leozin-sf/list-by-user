@@ -188,8 +188,19 @@ export const TextReset = styled(Text)`
 `;
 
 export const GoBackButton = styled.button`
+  background: none;
+  border: none;
+  width: 1.5rem;
+  height: 1.5rem;
   position: fixed;
   top: 0;
   right: 0;
   transform: translate(-0.625rem, 0.625rem);
+
+  &::after {
+    content: url(/assets/return.svg);
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+  }
 `;
