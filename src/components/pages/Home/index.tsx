@@ -30,7 +30,9 @@ function Main() {
     loading,
     showWarning,
     emailError,
+    setEmailError,
     passwordError,
+    setPasswordError,
     showLogin,
     showRegister,
     showResetPassword,
@@ -38,7 +40,9 @@ function Main() {
     setShowRegister,
     setShowResetPassword,
     nameError,
+    setNameError,
     lastNameError,
+    setLastNameError,
     passwordWarning,
   } = useAuth();
 
@@ -53,22 +57,30 @@ function Main() {
   const showRegisterForm = () => {
     setShowRegister(true);
     setShowLogin(false);
+    setEmailError(false);
+    setPasswordError(false);
   };
 
   const showLoginForm = () => {
     setShowRegister(false);
     setShowLogin(true);
+    setEmailError(false);
+    setPasswordError(false);
+    setNameError(false);
+    setLastNameError(false);
   };
 
   const showResetPasswordForm = () => {
     setShowResetPassword(true);
     setShowRegister(false);
     setShowLogin(false);
+    setEmailError(false);
   };
 
   const showLoginAgain = () => {
     setShowResetPassword(false);
     setShowLogin(true);
+    setEmailError(false);
   };
 
   return (
