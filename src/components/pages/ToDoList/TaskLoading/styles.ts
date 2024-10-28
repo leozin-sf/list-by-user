@@ -11,7 +11,7 @@ const loadingTask = keyframes`
 export const SkeletonButton = styled.div`
   width: 1.5rem;
   height: 1.5rem;
-  background: linear-gradient(90deg, #cccccc 25%, #ffffff 50%, #cccccc 75%);
+  background: ${(p) => p.theme.colors.toDoListPage.skeletonBg};
   background-size: 200% 100%;
   animation: ${loadingTask} 1.5s infinite linear;
   border-radius: 0.5rem;
@@ -20,7 +20,7 @@ export const SkeletonButton = styled.div`
 export const Skeleton = styled.div`
   position: relative;
   padding: 1rem 2.5rem;
-  background-color: #727d92;
+  background-color: ${(p) => p.theme.colors.toDoListPage.task};
   border-radius: 1rem;
   min-height: 4rem;
   min-width: 4rem;
@@ -55,7 +55,7 @@ export const Skeleton = styled.div`
 export const SkeletonText = styled.div`
   flex: 0.85;
   height: 1rem;
-  background: linear-gradient(90deg, #cccccc 25%, #ffffff 50%, #cccccc 75%);
+  background: ${(p) => p.theme.colors.toDoListPage.skeletonBg};
   background-size: 200% 100%;
   animation: ${loadingTask} 1.5s infinite linear;
   border-radius: 0.5rem;

@@ -2,6 +2,7 @@ export interface Colors {
   background: string;
   text: string;
   white: string;
+  grey: string;
 
   loginPage: {
     background: string;
@@ -13,7 +14,11 @@ export interface Colors {
   };
 
   toDoListPage: {
+    task: string;
     userText: string;
+    bgButtonColor: string;
+    skeletonBg: string;
+    bgFiltered: string;
   };
 }
 

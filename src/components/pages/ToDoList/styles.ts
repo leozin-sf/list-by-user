@@ -77,7 +77,7 @@ export const AddTask = styled.button<{ addingTask: boolean }>`
   right: 0;
   width: 1.5rem;
   height: 1.5rem;
-  background-color: #007bff;
+  background-color: ${(p) => p.theme.colors.toDoListPage.bgButtonColor};
   border: none;
   border-radius: 0.5rem;
   transform-origin: center;
@@ -95,11 +95,11 @@ export const AddTask = styled.button<{ addingTask: boolean }>`
 
   &:hover {
     cursor: pointer;
-    background-color: #0056b3;
+    background-color: ${(p) => p.theme.colors.toDoListPage.bgFiltered};
   }
 
   :disabled {
-    background-color: #808080;
+    background-color: ${(p) => p.theme.colors.grey};
     cursor: not-allowed;
   }
 
@@ -138,7 +138,7 @@ export const Tasks = styled.div`
 export const Task = styled.div`
   position: relative;
   padding: 1rem 2.5rem;
-  background-color: #727d92;
+  background-color: ${(p) => p.theme.colors.toDoListPage.task};
   border-radius: 1rem;
   min-height: 4rem;
   min-width: 4rem;
@@ -176,12 +176,15 @@ export const FilterSelect = styled.button<{ isActive: boolean }>`
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
 
-  background-color: ${({ isActive }) => (isActive ? '#007BFF' : '#ffffff')};
-  color: ${({ isActive }) => (isActive ? '#ffffff' : '#000000')};
+  background-color: ${(p) =>
+    p.isActive
+      ? p.theme.colors.toDoListPage.bgButtonColor
+      : p.theme.colors.white};
+  color: ${(p) => (p.isActive ? p.theme.colors.white : p.theme.colors.text)};
 
   &:hover {
-    background-color: #0056b3;
-    color: #ffffff;
+    background-color: ${(p) => p.theme.colors.toDoListPage.bgFiltered};
+    color: ${(p) => p.theme.colors.white};
   }
 `;
 
