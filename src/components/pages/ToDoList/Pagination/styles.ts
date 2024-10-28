@@ -8,22 +8,28 @@ export const PaginationContent = styled.div`
 
 export const Pages = styled.div`
   display: flex;
-  gap: 8px;
+  gap: 0.5rem;
   list-style: none;
   padding: 0;
 `;
 
 export const Page = styled.div<{ isActive: boolean }>`
-  width: 32px;
-  height: 32px;
+  width: 2rem;
+  height: 2rem;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  background-color: ${(p) => (p.isActive ? '#007BFF' : '#FFFFFF')};
-  color: ${(p) => (p.isActive ? '#FFFFFF' : '#007BFF')};
-  border: 1px solid #007bff;
+  background-color: ${(p) =>
+    p.isActive
+      ? p.theme.colors.toDoListPage.bgButtonColor
+      : p.theme.colors.white};
+  color: ${(p) =>
+    p.isActive
+      ? p.theme.colors.white
+      : p.theme.colors.toDoListPage.bgButtonColor};
+  border: 0.0625rem solid ${(p) => p.theme.colors.toDoListPage.bgButtonColor};
   transition:
     background-color 0.3s,
     color 0.3s;
@@ -31,11 +37,11 @@ export const Page = styled.div<{ isActive: boolean }>`
   & a {
     text-decoration: none;
     color: inherit;
-    font-size: 14px;
+    font-size: 0.875rem;
   }
 
   &:hover {
-    background-color: #007bff;
-    color: #ffffff;
+    background-color: ${(p) => p.theme.colors.toDoListPage.bgButtonColor};
+    color: ${(p) => p.theme.colors.white};
   }
 `;

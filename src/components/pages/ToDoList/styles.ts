@@ -1,6 +1,12 @@
 import styled from '@emotion/styled';
+import { keyframes, css } from '@emotion/react';
 
 const small = (p: any) => p.theme.breakpoints.small;
+
+const rotate = keyframes`
+  0% {transform: rotate(0deg)}
+  100%{transform: rotate(360deg)}
+`;
 
 export const Content = styled.div`
   input {
@@ -19,7 +25,18 @@ export const Menu = styled.div`
 `;
 
 export const LogoutButton = styled.button`
+  cursor: pointer;
   height: 2rem;
+  border: none;
+  background: none;
+  color: ${(p) => p.theme.colors.white};
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  &::after {
+    content: url('assets/logout.svg');
+  }
 `;
 
 export const Wellcome = styled.div``;
@@ -43,7 +60,7 @@ export const ListContent = styled.div`
 export const NewTaskDiv = styled.div`
   position: absolute;
   width: calc(100% - 2rem);
-  height: -webkit-fill-available;
+  height: 100%;
 
   input {
     font-size: 1rem;
@@ -65,14 +82,41 @@ export const NewTaskDiv = styled.div`
   }
 `;
 
-export const AddTask = styled.button`
+export const AddTask = styled.button<{ addingTask: boolean }>`
   position: absolute;
-  top: 0;
-  right: 0;
-  transform: translate(-1rem, 75%);
+  top: 0.75rem;
+  right: 0.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: ${(p) => p.theme.colors.toDoListPage.bgButtonColor};
+  border: none;
+  border-radius: 0.5rem;
+  transform-origin: center;
+
+  ${({ addingTask }) =>
+    addingTask &&
+    css`
+      animation: ${rotate} 1s ease-in-out;
+    `}
+
+  &::after {
+    content: url('/assets/add-l.svg');
+    display: inline-block;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: ${(p) => p.theme.colors.toDoListPage.bgFiltered};
+  }
+
+  :disabled {
+    background-color: ${(p) => p.theme.colors.grey};
+    cursor: not-allowed;
+  }
 
   @media (min-width: ${small}px) {
-    transform: translate(-13rem, 75%);
+    right: 13rem;
+    top: 0.75rem;
   }
 `;
 
@@ -105,7 +149,7 @@ export const Tasks = styled.div`
 export const Task = styled.div`
   position: relative;
   padding: 1rem 2.5rem;
-  background-color: #727d92;
+  background-color: ${(p) => p.theme.colors.toDoListPage.task};
   border-radius: 1rem;
   min-height: 4rem;
   min-width: 4rem;
@@ -121,30 +165,6 @@ export const Task = styled.div`
 export const TaskText = styled.p`
   font-size: 1rem;
   color: ${(p) => p.theme.colors.white};
-`;
-
-export const ExcludeButton = styled.button`
-  cursor: pointer;
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  transform: translate(-50%, -50%);
-
-  :disabled {
-    visibility: hidden;
-  }
-`;
-
-export const MarkTaskAsDone = styled.button`
-  cursor: pointer;
-  position: absolute;
-  top: 0;
-  right: 0;
-  transform: translate(-20%, 50%);
-
-  :disabled {
-    visibility: hidden;
-  }
 `;
 
 export const ShowByFilter = styled.div`
@@ -167,22 +187,27 @@ export const FilterSelect = styled.button<{ isActive: boolean }>`
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
 
-  background-color: ${({ isActive }) => (isActive ? '#007BFF' : '#ffffff')};
-  color: ${({ isActive }) => (isActive ? '#ffffff' : '#000000')};
+  background-color: ${(p) =>
+    p.isActive
+      ? p.theme.colors.toDoListPage.bgButtonColor
+      : p.theme.colors.white};
+  color: ${(p) => (p.isActive ? p.theme.colors.white : p.theme.colors.text)};
 
   &:hover {
-    background-color: #0056b3;
-    color: #ffffff;
+    background-color: ${(p) => p.theme.colors.toDoListPage.bgFiltered};
+    color: ${(p) => p.theme.colors.white};
   }
-`;
 
-export const ShowUpdateTask = styled.button`
-  cursor: pointer;
-  position: absolute;
-  left: 0.5rem;
+  &:disabled {
+    cursor: not-allowed;
+    background-color: ${(p) =>
+      p.isActive
+        ? p.theme.colors.toDoListPage.bgButtonColor
+        : p.theme.colors.white};
 
-  :disabled {
-    visibility: hidden;
+    &:hover {
+      background-color: ${(p) => p.theme.colors.toDoListPage.bgFiltered};
+    }
   }
 `;
 
@@ -191,16 +216,27 @@ export const UpdateContent = styled.div`
   position: relative;
 
   input {
+    font-size: 1rem;
     width: 100%;
-    height: 2rem;
+    height: 2.5rem;
     border-radius: 1rem;
     padding: 1rem;
   }
 `;
 
 export const SaveButton = styled.button`
+  cursor: pointer;
+  border: none;
+  background: none;
   position: absolute;
   top: 0;
   right: 0;
-  transform: translate(-30%, 40%);
+  transform: translate(-30%, 30%);
+
+  &::after {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    content: url('/assets/save.svg');
+  }
 `;

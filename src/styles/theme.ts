@@ -4,10 +4,11 @@ const colors: Colors = {
   background: '#282c34',
   text: '#000000',
   white: '#ffffff',
+  grey: '#808080',
 
   loginPage: {
     background: '#282c34',
-    inputBorder: 'lightblue',
+    inputBorder: '#add8e6',
     text: '#000000',
     loginGradient: 'radial-gradient(circle, #5c0067 0%, #00d4ff 100%)',
     hoverButton: '#5c0067',
@@ -15,7 +16,11 @@ const colors: Colors = {
   },
 
   toDoListPage: {
+    task: '#727d92',
     userText: '#786518',
+    bgButtonColor: '#007BFF',
+    skeletonBg: 'linear-gradient(90deg, #cccccc 25%, #ffffff 50%, #cccccc 75%)',
+    bgFiltered: '#0056B3',
   },
 };
 const breakpoints: Breakpoints = {
