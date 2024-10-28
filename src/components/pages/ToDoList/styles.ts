@@ -186,6 +186,18 @@ export const FilterSelect = styled.button<{ isActive: boolean }>`
     background-color: ${(p) => p.theme.colors.toDoListPage.bgFiltered};
     color: ${(p) => p.theme.colors.white};
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: ${(p) =>
+      p.isActive
+        ? p.theme.colors.toDoListPage.bgButtonColor
+        : p.theme.colors.white};
+
+    &:hover {
+      background-color: ${(p) => p.theme.colors.toDoListPage.bgFiltered};
+    }
+  }
 `;
 
 export const UpdateContent = styled.div`
@@ -193,16 +205,27 @@ export const UpdateContent = styled.div`
   position: relative;
 
   input {
+    font-size: 1rem;
     width: 100%;
-    height: 2rem;
+    height: 2.5rem;
     border-radius: 1rem;
     padding: 1rem;
   }
 `;
 
 export const SaveButton = styled.button`
+  cursor: pointer;
+  border: none;
+  background: none;
   position: absolute;
   top: 0;
   right: 0;
-  transform: translate(-30%, 40%);
+  transform: translate(-30%, 30%);
+
+  &::after {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    content: url('/assets/save.svg');
+  }
 `;

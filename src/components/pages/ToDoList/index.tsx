@@ -57,7 +57,7 @@ export function ToDoList() {
   const [tasks, setTasks] = useState<TaskTypes[]>([]);
   const [tasksLoading, setTasksLoading] = useState<boolean>(false);
   const [newTaskLoading, setNewTaskLoading] = useState<boolean>(false);
-  const [firsLoadingPage, setFirsLoadingPage] = useState<boolean>(true);
+  const [firstLoadingPage, setfirstLoadingPage] = useState<boolean>(true);
   const [newTaskText, setNewTaskText] = useState<string>('');
   const [updateContent, setUpdateContent] = useState<{
     [key: string]: boolean;
@@ -78,7 +78,7 @@ export function ToDoList() {
     : filteredTasks.slice(indexOfFirstTask, indexOfLastTask);
 
   const getTasks = async (userID: string) => {
-    if (firsLoadingPage) setTasksLoading(true);
+    if (firstLoadingPage) setTasksLoading(true);
 
     const { data: tasksData, error: tasksError } = await supabase
       .from('to_do_list')
@@ -92,10 +92,10 @@ export function ToDoList() {
       setTasks(tasksData);
     }
 
-    if (firsLoadingPage) {
+    if (firstLoadingPage) {
       setTimeout(() => {
         setTasksLoading(false);
-        setFirsLoadingPage(false);
+        setfirstLoadingPage(false);
       }, 1000);
     }
   };
@@ -165,7 +165,7 @@ export function ToDoList() {
         console.log('Erro em todolist, erro');
       } else {
         await getTasks(userID);
-        setNewTaskText(''); // Limpa o campo de entrada
+        setNewTaskText('');
 
         setTimeout(() => {
           setNewTaskLoading(false);
@@ -329,18 +329,20 @@ export function ToDoList() {
             <FilterSelect
               onClick={() => setShowCompleted(false)}
               isActive={!showCompleted}
+              disabled={editingTaskId !== null}
             >
               Pendentes
             </FilterSelect>
             <FilterSelect
               onClick={() => setShowCompleted(true)}
               isActive={showCompleted}
+              disabled={editingTaskId !== null}
             >
               Concluídas
             </FilterSelect>
           </ShowByFilter>
           <Tasks>
-            {tasksLoading && firsLoadingPage ? (
+            {tasksLoading && firstLoadingPage ? (
               <>
                 <TaskLoading />
                 <TaskLoading />
@@ -405,9 +407,7 @@ export function ToDoList() {
                         />
                         <SaveButton
                           onClick={() => handleUpdateTask(task.list_id)}
-                        >
-                          Salvar
-                        </SaveButton>
+                        />
                       </UpdateContent>
                     )}
                   </Task>
