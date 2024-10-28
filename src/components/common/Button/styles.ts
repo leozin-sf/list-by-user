@@ -6,6 +6,8 @@ export const BaseButton = styled.button<CommonButtonProps>`
   position: absolute;
   background: none;
   border: none;
+  height: 1.5rem;
+  width: 1.5rem;
 
   :disabled {
     visibility: hidden;
