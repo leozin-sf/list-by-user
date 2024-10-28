@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { css } from '@emotion/react';
+import { css, keyframes } from '@emotion/react';
 import { ShowTypes } from './types';
 
 const small = (p: any) => p.theme.breakpoints.small;
@@ -11,10 +11,6 @@ export const LoginContainer = styled.div<ShowTypes>`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  display: flex;
-  justify-content: space-evenly;
-  flex-direction: column;
-  gap: 1rem;
   padding: 2rem 3rem;
   border-radius: 1rem;
 
@@ -187,15 +183,22 @@ export const TextReset = styled(Text)`
   max-width: 12rem;
 `;
 
+const fadeInButton = keyframes`
+from {opacity: 0} to {opacity: 1}
+`;
+
 export const GoBackButton = styled.button`
+  cursor: pointer;
   background: none;
   border: none;
   width: 1.5rem;
   height: 1.5rem;
-  position: fixed;
+  position: absolute;
   top: 0;
   right: 0;
   transform: translate(-0.625rem, 0.625rem);
+  opacity: 0;
+  animation: ${fadeInButton} 1s ease-out 0.4s forwards;
 
   &::after {
     content: url(/assets/return.svg);
@@ -203,4 +206,16 @@ export const GoBackButton = styled.button`
     width: 100%;
     height: 100%;
   }
+`;
+
+const fadeIn = keyframes`
+  from { opacity: 0;transform: translateY(10px);} to {opacity: 1;transform: translateY(0);}
+`;
+
+export const ShowContent = styled.div`
+  animation: ${fadeIn} 0.4s ease-out;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  gap: 1rem;
 `;
