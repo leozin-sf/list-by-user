@@ -4,4 +4,5 @@ export interface CommonButtonProps {
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
   children?: React.ReactNode;
+  task_confirmed?: boolean;
 }
