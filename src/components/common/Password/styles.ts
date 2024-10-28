@@ -24,15 +24,25 @@ export const PasswordContent = styled.div`
     color: transparent;
     text-shadow: 0 0 0 black;
   }
+`;
 
-  button {
-    cursor: pointer;
-    border: none;
-    border-radius: 1rem;
-    background-color: transparent;
-    position: absolute;
-    top: 50%;
-    right: 0;
-    transform: translate(-10%, -50%);
+export const ButtonShowHide = styled.button<{ isActive: boolean }>`
+  cursor: pointer;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: none;
+  border-radius: 1rem;
+  background-color: transparent;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(-10%, -50%);
+
+  &::after {
+    content: ${(p) =>
+      p.isActive ? `url(/assets/hide.svg)` : 'url(/assets/show.svg)'};
+    display: inline-block;
+    width: 100%;
+    height: 100%;
   }
 `;
