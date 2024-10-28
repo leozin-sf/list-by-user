@@ -217,7 +217,7 @@ function Main() {
         )}
         {showResetPassword && (
           <>
-            <GoBackButton onClick={showLoginAgain}>Voltar</GoBackButton>
+            <GoBackButton onClick={showLoginAgain} />
             <TextReset>Informe o e-mail cadastrado</TextReset>
             <input
               ref={emailRecoverPasswordRef}

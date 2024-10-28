@@ -35,7 +35,7 @@ export const LogoutButton = styled.button`
   gap: 0.5rem;
 
   &::after {
-    content: url('assets/logout.svg');
+    content: url(assets/logout.svg);
   }
 `;
 
@@ -100,7 +100,7 @@ export const AddTask = styled.button<{ addingTask: boolean }>`
     `}
 
   &::after {
-    content: url('/assets/add-l.svg');
+    content: url(/assets/add-l.svg);
     display: inline-block;
   }
 
@@ -237,6 +237,6 @@ export const SaveButton = styled.button`
     display: inline-block;
     width: 100%;
     height: 100%;
-    content: url('/assets/save.svg');
+    content: url(/assets/save.svg);
   }
 `;
