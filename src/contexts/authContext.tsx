@@ -13,6 +13,10 @@ type AuthContextType = {
   showLogin: boolean;
   showRegister: boolean;
   showResetPassword: boolean;
+  setEmailError: (value: boolean) => void;
+  setPasswordError: (value: boolean) => void;
+  setNameError: (value: boolean) => void;
+  setLastNameError: (value: boolean) => void;
   setShowLogin: (value: boolean) => void;
   setShowRegister: (value: boolean) => void;
   setShowResetPassword: (value: boolean) => void;
@@ -187,9 +191,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         loading,
         showWarning,
         emailError,
+        setEmailError,
         passwordError,
+        setPasswordError,
         nameError,
+        setNameError,
         lastNameError,
+        setLastNameError,
         passwordWarning,
         showLogin,
         showRegister,
