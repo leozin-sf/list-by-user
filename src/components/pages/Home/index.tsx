@@ -19,6 +19,7 @@ import {
   RegisterText,
   TextReset,
   GoBackButton,
+  ShowContent,
 } from './styles';
 import { Loading } from '../../common/DotLoading';
 
@@ -87,7 +88,7 @@ function Main() {
     <Container>
       <LoginContainer showResetPassword={showResetPassword}>
         {showLogin && (
-          <>
+          <ShowContent>
             <User>
               <Text>Login</Text>
               <input
@@ -141,10 +142,10 @@ function Main() {
                 <ErrorMessage>Credenciais inválidas!</ErrorMessage>
               </Error>
             )}
-          </>
+          </ShowContent>
         )}
         {showRegister && (
-          <>
+          <ShowContent>
             <User>
               <Text>Nome</Text>
               <input
@@ -225,10 +226,10 @@ function Main() {
                 </ErrorMessage>
               </Error>
             )}
-          </>
+          </ShowContent>
         )}
         {showResetPassword && (
-          <>
+          <ShowContent>
             <GoBackButton onClick={showLoginAgain} />
             <TextReset>Informe o e-mail cadastrado</TextReset>
             <input
@@ -250,7 +251,7 @@ function Main() {
                 <ErrorMessage>E-mail enviado!</ErrorMessage>
               </Error>
             )}
-          </>
+          </ShowContent>
         )}
       </LoginContainer>
     </Container>
