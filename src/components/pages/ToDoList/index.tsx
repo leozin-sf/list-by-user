@@ -6,6 +6,7 @@ import { useIsMobile } from '../../../hooks/useMobile';
 import Container from '../../layout/Container';
 import { Button } from '../../common/Button';
 import { Pagination } from './Pagination/index';
+import { TaskLoading } from './TaskLoading';
 
 import {
   Content,
@@ -54,11 +55,14 @@ export function ToDoList() {
   const navigate = useNavigate();
   const [userName, setUserName] = useState<string>('');
   const [tasks, setTasks] = useState<TaskTypes[]>([]);
+  const [tasksLoading, setTasksLoading] = useState<boolean>(false);
+  const [newTaskLoading, setNewTaskLoading] = useState<boolean>(false);
+  const [firsLoadingPage, setFirsLoadingPage] = useState<boolean>(true);
+  const [newTaskText, setNewTaskText] = useState<string>('');
   const [updateContent, setUpdateContent] = useState<{
     [key: string]: boolean;
   }>({});
   const [editedText, setEditedText] = useState<{ [key: string]: string }>({});
-  const newTaskText = useRef<HTMLInputElement>(null);
   const updatedTaskText = useRef<HTMLInputElement>(null);
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -74,6 +78,8 @@ export function ToDoList() {
     : filteredTasks.slice(indexOfFirstTask, indexOfLastTask);
 
   const getTasks = async (userID: string) => {
+    if (firsLoadingPage) setTasksLoading(true);
+
     const { data: tasksData, error: tasksError } = await supabase
       .from('to_do_list')
       .select('*')
@@ -84,6 +90,13 @@ export function ToDoList() {
       console.log(tasksError);
     } else {
       setTasks(tasksData);
+    }
+
+    if (firsLoadingPage) {
+      setTimeout(() => {
+        setTasksLoading(false);
+        setFirsLoadingPage(false);
+      }, 1000);
     }
   };
 
@@ -126,32 +139,40 @@ export function ToDoList() {
 
   const [addingTask, setAddingTask] = useState<boolean>(false);
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewTaskText(e.target.value);
+  };
+
   const handleAddTask = async (e: FormEvent) => {
     e.preventDefault();
+    if (!newTaskText.trim()) return;
+
     setAddingTask(true);
+    setNewTaskLoading(true);
 
-    setTimeout(async () => {
-      setAddingTask(false);
+    const userID = await getUserId();
 
-      const userID = await getUserId();
+    if (userID && newTaskText) {
+      const { data, error } = await supabase.from('to_do_list').insert([
+        {
+          text: newTaskText,
+          task_confirmed: false,
+          user_id: userID,
+        },
+      ]);
 
-      if (userID && newTaskText.current?.value) {
-        const { data, error } = await supabase.from('to_do_list').insert([
-          {
-            text: newTaskText.current.value,
-            task_confirmed: false,
-            user_id: userID,
-          },
-        ]);
+      if (error) {
+        console.log('Erro em todolist, erro');
+      } else {
+        await getTasks(userID);
+        setNewTaskText(''); // Limpa o campo de entrada
 
-        if (error) {
-          console.log('Erro em todolist, erro');
-        } else {
-          getTasks(userID);
-          newTaskText.current.value = '';
-        }
+        setTimeout(() => {
+          setNewTaskLoading(false);
+        }, 100);
       }
-    }, 500);
+    }
+    setAddingTask(false);
   };
 
   const deleteTask = async (taskID: string) => {
@@ -289,14 +310,19 @@ export function ToDoList() {
               <input
                 type="textarea"
                 placeholder="Adicionar tarefa"
-                ref={newTaskText}
+                value={newTaskText}
+                onChange={handleInputChange}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
                     handleAddTask(e);
                   }
                 }}
               />
-              <AddTask onClick={handleAddTask} addingTask={addingTask} />
+              <AddTask
+                onClick={handleAddTask}
+                addingTask={addingTask}
+                disabled={!newTaskText.trim()}
+              />
             </AddTaskSticky>
           </NewTaskDiv>
           <ShowByFilter>
@@ -314,61 +340,82 @@ export function ToDoList() {
             </FilterSelect>
           </ShowByFilter>
           <Tasks>
-            {currentTasks.map((task) => (
-              <Task key={task.list_id}>
-                {!updateContent[task.list_id] && (
-                  <>
-                    <TaskText>{task.text}</TaskText>
-                    <Button
-                      buttonType="excludeTask"
-                      onClick={() => deleteTask(task.list_id)}
-                      disabled={
-                        editingTaskId !== null && editingTaskId !== task.list_id
-                      }
-                    />
-                    <Button
-                      buttonType="markTask"
-                      onClick={() => toggleTask(task.list_id)}
-                      disabled={
-                        editingTaskId !== null && editingTaskId !== task.list_id
-                      }
-                      task_confirmed={task.task_confirmed}
-                    />
-                    <Button
-                      buttonType="editTask"
-                      onClick={() => showUpdateTask(task.list_id, task.text)}
-                      disabled={
-                        editingTaskId !== null && editingTaskId !== task.list_id
-                      }
-                    />
-                  </>
-                )}
-                {updateContent[task.list_id] && (
-                  <UpdateContent>
-                    <input
-                      type="text"
-                      defaultValue={task.text}
-                      ref={updatedTaskText}
-                      onChange={(e) =>
-                        setEditedText((prev) => ({
-                          ...prev,
-                          [task.list_id]: e.target.value,
-                        }))
-                      }
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                          handleUpdateTask(task.list_id);
-                        }
-                      }}
-                    />
-                    <SaveButton onClick={() => handleUpdateTask(task.list_id)}>
-                      Salvar
-                    </SaveButton>
-                  </UpdateContent>
-                )}
-              </Task>
-            ))}
+            {tasksLoading && firsLoadingPage ? (
+              <>
+                <TaskLoading />
+                <TaskLoading />
+                <TaskLoading />
+                <TaskLoading />
+              </>
+            ) : (
+              <>
+                {newTaskLoading && <TaskLoading />}
+
+                {currentTasks.map((task) => (
+                  <Task key={task.list_id}>
+                    {!updateContent[task.list_id] && (
+                      <>
+                        <TaskText>{task.text}</TaskText>
+                        <Button
+                          buttonType="excludeTask"
+                          onClick={() => deleteTask(task.list_id)}
+                          disabled={
+                            editingTaskId !== null &&
+                            editingTaskId !== task.list_id
+                          }
+                        />
+                        <Button
+                          buttonType="markTask"
+                          onClick={() => toggleTask(task.list_id)}
+                          disabled={
+                            editingTaskId !== null &&
+                            editingTaskId !== task.list_id
+                          }
+                          task_confirmed={task.task_confirmed}
+                        />
+                        <Button
+                          buttonType="editTask"
+                          onClick={() =>
+                            showUpdateTask(task.list_id, task.text)
+                          }
+                          disabled={
+                            editingTaskId !== null &&
+                            editingTaskId !== task.list_id
+                          }
+                        />
+                      </>
+                    )}
+                    {updateContent[task.list_id] && (
+                      <UpdateContent>
+                        <input
+                          type="text"
+                          defaultValue={task.text}
+                          ref={updatedTaskText}
+                          onChange={(e) =>
+                            setEditedText((prev) => ({
+                              ...prev,
+                              [task.list_id]: e.target.value,
+                            }))
+                          }
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              handleUpdateTask(task.list_id);
+                            }
+                          }}
+                        />
+                        <SaveButton
+                          onClick={() => handleUpdateTask(task.list_id)}
+                        >
+                          Salvar
+                        </SaveButton>
+                      </UpdateContent>
+                    )}
+                  </Task>
+                ))}
+              </>
+            )}
           </Tasks>
+
           {!isMobile && (
             <Pagination
               tasksPerPage={tasksPerPage}

@@ -85,7 +85,7 @@ export const AddTask = styled.button<{ addingTask: boolean }>`
   ${({ addingTask }) =>
     addingTask &&
     css`
-      animation: ${rotate} 0.5s ease-in-out;
+      animation: ${rotate} 1s ease-in-out;
     `}
 
   &::after {
@@ -96,6 +96,11 @@ export const AddTask = styled.button<{ addingTask: boolean }>`
   &:hover {
     cursor: pointer;
     background-color: #0056b3;
+  }
+
+  :disabled {
+    background-color: #808080;
+    cursor: not-allowed;
   }
 
   @media (min-width: ${small}px) {
