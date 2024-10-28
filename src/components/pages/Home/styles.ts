@@ -183,15 +183,22 @@ export const TextReset = styled(Text)`
   max-width: 12rem;
 `;
 
+const fadeInButton = keyframes`
+from {opacity: 0} to {opacity: 1}
+`;
+
 export const GoBackButton = styled.button`
+  cursor: pointer;
   background: none;
   border: none;
   width: 1.5rem;
   height: 1.5rem;
-  position: fixed;
+  position: absolute;
   top: 0;
   right: 0;
   transform: translate(-0.625rem, 0.625rem);
+  opacity: 0;
+  animation: ${fadeInButton} 1s ease-out 0.4s forwards;
 
   &::after {
     content: url(/assets/return.svg);
