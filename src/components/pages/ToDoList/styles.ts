@@ -60,7 +60,7 @@ export const ListContent = styled.div`
 export const NewTaskDiv = styled.div`
   position: absolute;
   width: calc(100% - 2rem);
-  height: 100%;
+  min-height: calc(100% - 4rem - 3.625rem);
 
   input {
     font-size: 1rem;
