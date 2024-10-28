@@ -73,8 +73,8 @@ export const NewTaskDiv = styled.div`
 
 export const AddTask = styled.button<{ addingTask: boolean }>`
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 0.75rem;
+  right: 0.5rem;
   width: 1.5rem;
   height: 1.5rem;
   background-color: ${(p) => p.theme.colors.toDoListPage.bgButtonColor};
