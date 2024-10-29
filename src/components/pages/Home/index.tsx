@@ -26,6 +26,7 @@ import { Loading } from '../../common/DotLoading';
 
 function Main() {
   const {
+    disabledButton,
     showEmailSended,
     handleLogin,
     handleRegister,
@@ -114,6 +115,7 @@ function Main() {
                     passwordRef.current?.value
                   )
                 }
+                disabled={disabledButton}
               />
               <LoginText>
                 Esqueceu sua senha? Clique{' '}
@@ -129,6 +131,7 @@ function Main() {
                 )
               }
               loading={loading}
+              disabled={disabledButton}
             >
               {loading && <Loading loading={loading} />}
             </LoginButton>
@@ -139,9 +142,9 @@ function Main() {
                 Cadastre-se <a onClick={showRegisterForm}>aqui</a>!
               </LoginText>
             </RegisterContent>
-            {showWarning && (
+            {showWarning.status && (
               <Error>
-                <ErrorMessage>Credenciais inválidas!</ErrorMessage>
+                <ErrorMessage>{showWarning.message}</ErrorMessage>
               </Error>
             )}
           </ShowContent>
@@ -194,6 +197,7 @@ function Main() {
                     registerPasswordRef.current?.value
                   )
                 }
+                disabled={disabledButton}
               />
             </Password>
             <RegisterButton
@@ -207,6 +211,7 @@ function Main() {
                 )
               }
               loading={loading}
+              disabled={disabledButton}
             >
               {loading && <Loading loading={loading} />}
             </RegisterButton>
@@ -216,9 +221,9 @@ function Main() {
                 Clique <a onClick={showLoginForm}>aqui</a>!
               </RegisterText>
             </RegisterContent>
-            {showWarning && (
+            {showWarning.status && (
               <Error>
-                <ErrorMessage>E-mail já cadastrado!</ErrorMessage>
+                <ErrorMessage>{showWarning.message}</ErrorMessage>
               </Error>
             )}
             {passwordWarning && (
@@ -247,12 +252,14 @@ function Main() {
                   );
                 }
               }}
+              disabled={disabledButton}
             />
             <ResetPasswordButton
               onClick={(e) =>
                 handleResetPassword(e, emailRecoverPasswordRef.current?.value)
               }
               loading={loading}
+              disabled={disabledButton}
             >
               {loading && <Loading loading={loading} />}
             </ResetPasswordButton>
@@ -264,11 +271,9 @@ function Main() {
                 <ErrorMessage>Verifique também a caixa de spam!</ErrorMessage>
               </EmailSended>
             )}
-            {showWarning && (
+            {showWarning.status && (
               <Error>
-                <ErrorMessage>
-                  E-mail não encontrado na base de dados!
-                </ErrorMessage>
+                <ErrorMessage>{showWarning.message}</ErrorMessage>
               </Error>
             )}
           </ShowContent>

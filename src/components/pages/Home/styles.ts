@@ -84,8 +84,8 @@ export const LoginButton = styled.button<{ loading: boolean }>`
     color: ${(p) => p.theme.colors.white};
   }
 
-  ${(props) =>
-    props.loading
+  ${(p) =>
+    p.loading
       ? css`
           ::after {
             content: '';
@@ -96,11 +96,18 @@ export const LoginButton = styled.button<{ loading: boolean }>`
             content: 'Entrar';
           }
         `}
+  &:disabled {
+    &:hover {
+      cursor: not-allowed;
+      background-color: ${(p) => p.theme.colors.bgDisabledButton};
+      color: ${(p) => p.theme.colors.textColorDisabledButton};
+    }
+  }
 `;
 
 export const RegisterButton = styled(LoginButton)`
-  ${(props) =>
-    props.loading
+  ${(p) =>
+    p.loading
       ? css`
           ::after {
             content: '';
@@ -114,8 +121,8 @@ export const RegisterButton = styled(LoginButton)`
 `;
 
 export const ResetPasswordButton = styled(LoginButton)`
-  ${(props) =>
-    props.loading
+  ${(p) =>
+    p.loading
       ? css`
           ::after {
             content: '';

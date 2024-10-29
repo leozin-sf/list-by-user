@@ -5,6 +5,8 @@ const colors: Colors = {
   text: '#000000',
   white: '#ffffff',
   grey: '#808080',
+  bgDisabledButton: '#efefef4d',
+  textColorDisabledButton: '#1010104d',
 
   loginPage: {
     background: '#282c34',
