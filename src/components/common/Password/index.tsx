@@ -6,6 +6,18 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordTypes>(
   ({ placeholder, className, onEnterPress, ...props }, ref) => {
     const [showPassword, setShowPassword] = useState(false);
 
+    const handleToggleShowPassword = () => {
+      setShowPassword(!showPassword);
+
+      if (ref && typeof ref !== 'function' && ref.current) {
+        const input = ref.current;
+        input.focus();
+
+        const length = input.value.length;
+        setTimeout(() => input.setSelectionRange(length, length), 0);
+      }
+    };
+
     return (
       <PasswordContent>
         <input
@@ -22,7 +34,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordTypes>(
         />
         <ButtonShowHide
           type="button"
-          onClick={() => setShowPassword(!showPassword)}
+          onClick={handleToggleShowPassword}
           isActive={showPassword}
         />
       </PasswordContent>

@@ -135,6 +135,8 @@ export const ErrorMessage = styled.p`
   text-align: center;
   font-weight: bold;
   margin: 0;
+  max-width: 15rem;
+  align-self: center;
 `;
 
 export const LoginText = styled.p`
@@ -181,6 +183,7 @@ export const RegisterText = styled(LoginText)`
 
 export const TextReset = styled(Text)`
   max-width: 12rem;
+  align-self: center;
 `;
 
 const fadeInButton = keyframes`
@@ -218,4 +221,17 @@ export const ShowContent = styled.div`
   justify-content: space-evenly;
   flex-direction: column;
   gap: 1rem;
+`;
+
+export const EmailSended = styled(Error)`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  ${ErrorMessage} {
+    &:nth-of-type(2) {
+      color: ${(p) => p.theme.colors.loginPage.error};
+      font-size: 0.75rem;
+    }
+  }
 `;

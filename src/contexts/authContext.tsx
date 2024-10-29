@@ -13,6 +13,7 @@ type AuthContextType = {
   showLogin: boolean;
   showRegister: boolean;
   showResetPassword: boolean;
+  showEmailSended: boolean;
   setEmailError: (value: boolean) => void;
   setPasswordError: (value: boolean) => void;
   setNameError: (value: boolean) => void;
@@ -43,6 +44,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const [showEmailSended, setShowEmailSended] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [showWarning, setShowWarning] = useState<boolean>(false);
   const [emailError, setEmailError] = useState<boolean>(false);
@@ -171,9 +173,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       if (error) {
         console.error('Erro ao enviar e-mail de redefinição de senha', error);
       } else {
-        setShowWarning(true);
+        setShowEmailSended(true);
         setTimeout(() => {
-          setShowWarning(false);
+          setShowEmailSended(false);
           setShowResetPassword(false);
           setShowLogin(true);
         }, 5000);
@@ -188,6 +190,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   return (
     <AuthContext.Provider
       value={{
+        showEmailSended,
         loading,
         showWarning,
         emailError,
