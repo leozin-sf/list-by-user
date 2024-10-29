@@ -3,6 +3,8 @@ export interface Colors {
   text: string;
   white: string;
   grey: string;
+  bgDisabledButton: string;
+  textColorDisabledButton: string;
 
   loginPage: {
     background: string;

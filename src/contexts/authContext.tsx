@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 type AuthContextType = {
   loading: boolean;
-  showWarning: boolean;
+  showWarning: { status: boolean; message: string };
   emailError: boolean;
   passwordError: boolean;
   nameError: boolean;
@@ -14,6 +14,8 @@ type AuthContextType = {
   showRegister: boolean;
   showResetPassword: boolean;
   showEmailSended: boolean;
+  disabledButton: boolean;
+  setDisabledButton: (value: boolean) => void;
   setEmailError: (value: boolean) => void;
   setPasswordError: (value: boolean) => void;
   setNameError: (value: boolean) => void;
@@ -44,9 +46,16 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const [disabledButton, setDisabledButton] = useState<boolean>(false);
   const [showEmailSended, setShowEmailSended] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [showWarning, setShowWarning] = useState<boolean>(false);
+  const [showWarning, setShowWarning] = useState<{
+    status: boolean;
+    message: string;
+  }>({
+    status: false,
+    message: '',
+  });
   const [emailError, setEmailError] = useState<boolean>(false);
   const [passwordError, setPasswordError] = useState<boolean>(false);
   const [nameError, setNameError] = useState<boolean>(false);
@@ -64,26 +73,101 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     password: string | undefined
   ) => {
     e.preventDefault();
-    setLoading(true);
     setEmailError(!email || email.trim() === '');
     setPasswordError(!password || password.trim() === '');
 
     if (!email || email.trim() === '' || !password || password.trim() === '') {
-      setLoading(false);
       return;
     }
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    if (error) {
-      setShowWarning(true);
-      setTimeout(() => setShowWarning(false), 5000);
-    } else {
-      navigate('/to-do-list');
+    try {
+      const { data: userData, error: userError } = await supabase
+        .from('users')
+        .select('email')
+        .eq('email', email)
+        .single();
+
+      if (userError || !userData) {
+        if (
+          userError.message ===
+          'JSON object requested, multiple (or no) rows returned'
+        ) {
+          console.error('Usuário não encontrado', userError);
+          setLoading(true);
+          setDisabledButton(true);
+          setTimeout(() => {
+            setShowWarning({ status: true, message: 'Usuário não cadastrado' });
+            setLoading(false);
+            setDisabledButton(false);
+          }, 500);
+          setTimeout(() => {
+            setShowWarning({ status: false, message: '' });
+            setLoading(false);
+          }, 3000);
+        } else {
+          console.error('Falha ao verificar usuário', userError);
+          setLoading(true);
+          setDisabledButton(true);
+          setTimeout(() => {
+            setShowWarning({
+              status: true,
+              message: 'Falha ao verificar usuário',
+            });
+            setLoading(false);
+            setDisabledButton(false);
+          }, 500);
+          setTimeout(() => {
+            setShowWarning({ status: false, message: '' });
+            setLoading(false);
+          }, 3000);
+        }
+        return;
+      }
+
+      const { error: errorAuth } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (errorAuth) {
+        if (errorAuth.message === 'Invalid login credentials') {
+          console.error(errorAuth);
+          setLoading(true);
+          setDisabledButton(true);
+          setTimeout(() => {
+            setShowWarning({ status: true, message: 'Senha inválida' });
+            setLoading(false);
+            setDisabledButton(false);
+          }, 500);
+          setTimeout(() => {
+            setShowWarning({ status: false, message: '' });
+            setLoading(false);
+          }, 3000);
+        } else {
+          console.error(errorAuth);
+          setLoading(true);
+          setDisabledButton(true);
+          setTimeout(() => {
+            setShowWarning({
+              status: true,
+              message: 'Falha ao fazer login',
+            });
+            setLoading(false);
+            setDisabledButton(false);
+          }, 500);
+          setTimeout(() => {
+            setShowWarning({ status: false, message: '' });
+            setLoading(false);
+          }, 3000);
+        }
+      } else {
+        setTimeout(() => {
+          navigate('/to-do-list');
+          setLoading(false);
+        }, 850);
+      }
+    } catch (error) {
+      console.log(error);
     }
-    setLoading(false);
   };
 
   const handleRegister = async (
@@ -94,7 +178,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     password: string | undefined
   ) => {
     e.preventDefault();
-    setLoading(true);
 
     setNameError(!name || name.trim() === '');
     setLastNameError(!lastName || lastName.trim() === '');
@@ -102,11 +185,29 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setPasswordError(!password || password.trim() === '');
 
     if (!name || !lastName || !email || !password) {
-      setLoading(false);
       return;
     }
 
     try {
+      const { data: userData, error: userError } = await supabase
+        .from('users')
+        .select('email')
+        .eq('email', email)
+        .single();
+
+      if (userData) {
+        console.error('Usuário já cadastrado');
+        setLoading(true);
+        setDisabledButton(true);
+        setShowWarning({ status: true, message: 'Usuário já cadastrado' });
+        setTimeout(() => {
+          setShowWarning({ status: false, message: '' });
+          setLoading(false);
+          setDisabledButton(false);
+        }, 3500);
+        return;
+      }
+
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
@@ -117,13 +218,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
       if (error) {
         if (error.message === 'User already registered') {
-          setShowWarning(true);
-          setTimeout(() => setShowWarning(false), 10000);
+          setLoading(true);
+          setDisabledButton(true);
+          setShowWarning({ status: true, message: 'Usuário já cadastrado' });
+          setTimeout(() => {
+            setShowWarning({ status: false, message: '' });
+            setLoading(false);
+            setDisabledButton(false);
+          }, 3500);
         } else if (
           error.message === 'Password should be at least 6 characters.'
         ) {
+          setLoading(true);
+          setDisabledButton(true);
           setPasswordWarning(true);
-          setTimeout(() => setPasswordWarning(false), 10000);
+          setTimeout(() => {
+            setPasswordWarning(false);
+            setLoading(false);
+            setDisabledButton(false);
+          }, 3500);
         } else {
           console.error(error.message);
         }
@@ -133,12 +246,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           .insert([
             { user_id: data.user.id, email, name, last_name: lastName },
           ]);
-        navigate('/to-do-list');
+        setTimeout(() => {
+          navigate('/to-do-list');
+          setLoading(false);
+        }, 850);
       }
     } catch (error) {
       console.error('Erro no registro', error);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -147,11 +261,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     email: string | undefined
   ) => {
     e.preventDefault();
-    setLoading(true);
     setEmailError(!email || email.trim() === '');
 
     if (!email) {
-      setLoading(false);
       return;
     }
 
@@ -163,33 +275,44 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         .single();
 
       if (userError || !user) {
-        setShowWarning(true);
-        setTimeout(() => setShowWarning(false), 5000);
-        setLoading(false);
+        setLoading(true);
+        setShowWarning({ status: true, message: 'E-mail inválido' });
+        setDisabledButton(true);
+        setTimeout(() => {
+          setShowWarning({ status: false, message: '' });
+          setDisabledButton(false);
+          setLoading(false);
+        }, 3000);
         return;
       }
+
+      setShowEmailSended(true);
+      setLoading(true);
+      setDisabledButton(true);
 
       const { error } = await supabase.auth.resetPasswordForEmail(email);
       if (error) {
         console.error('Erro ao enviar e-mail de redefinição de senha', error);
+        setShowEmailSended(false);
       } else {
-        setShowEmailSended(true);
         setTimeout(() => {
           setShowEmailSended(false);
           setShowResetPassword(false);
           setShowLogin(true);
-        }, 5000);
+          setDisabledButton(false);
+          setLoading(false);
+        }, 4000);
       }
     } catch (error) {
       console.error('Erro na recuperação de senha', error);
-    } finally {
-      setLoading(false);
     }
   };
 
   return (
     <AuthContext.Provider
       value={{
+        disabledButton,
+        setDisabledButton,
         showEmailSended,
         loading,
         showWarning,

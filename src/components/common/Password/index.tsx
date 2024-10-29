@@ -3,7 +3,7 @@ import { PasswordContent, ButtonShowHide } from './styles';
 import { PasswordTypes } from './types';
 
 const PasswordInput = forwardRef<HTMLInputElement, PasswordTypes>(
-  ({ placeholder, className, onEnterPress, ...props }, ref) => {
+  ({ placeholder, className, onEnterPress, disabled, ...props }, ref) => {
     const [showPassword, setShowPassword] = useState(false);
 
     const handleToggleShowPassword = () => {
@@ -30,6 +30,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordTypes>(
               onEnterPress(e);
             }
           }}
+          disabled={disabled}
           {...props}
         />
         <ButtonShowHide
