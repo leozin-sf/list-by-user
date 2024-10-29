@@ -20,11 +20,13 @@ import {
   TextReset,
   GoBackButton,
   ShowContent,
+  EmailSended,
 } from './styles';
 import { Loading } from '../../common/DotLoading';
 
 function Main() {
   const {
+    showEmailSended,
     handleLogin,
     handleRegister,
     handleResetPassword,
@@ -237,6 +239,14 @@ function Main() {
               type="email"
               placeholder="Digite seu email"
               className={emailError ? 'erroNome' : ''}
+              onKeyDown={(e) => {
+                if (e.key == 'Enter') {
+                  handleResetPassword(
+                    e,
+                    emailRecoverPasswordRef.current?.value
+                  );
+                }
+              }}
             />
             <ResetPasswordButton
               onClick={(e) =>
@@ -246,9 +256,19 @@ function Main() {
             >
               {loading && <Loading loading={loading} />}
             </ResetPasswordButton>
+            {showEmailSended && (
+              <EmailSended>
+                <ErrorMessage>
+                  Redefinição de senha enviada para o seu e-mail!
+                </ErrorMessage>
+                <ErrorMessage>Verifique também a caixa de spam!</ErrorMessage>
+              </EmailSended>
+            )}
             {showWarning && (
               <Error>
-                <ErrorMessage>E-mail enviado!</ErrorMessage>
+                <ErrorMessage>
+                  E-mail não encontrado na base de dados!
+                </ErrorMessage>
               </Error>
             )}
           </ShowContent>
