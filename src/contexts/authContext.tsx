@@ -161,9 +161,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         }
       } else {
         setTimeout(() => {
+          setLoading(true);
+          setShowWarning({ status: false, message: '' });
+          setDisabledButton(true);
+        }, 0);
+        setTimeout(() => {
           navigate('/to-do-list');
           setLoading(false);
-        }, 850);
+          setDisabledButton(false);
+        }, 1000);
       }
     } catch (error) {
       console.log(error);
